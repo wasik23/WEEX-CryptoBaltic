@@ -4,10 +4,37 @@ import { applyLanguage, resolveLanguage } from './i18n.js';
 
 const track = createTracker();
 
+const languageSwitcher = document.querySelector('.language-switcher');
+const languageTrigger = document.querySelector('.language-trigger');
+const languageMenu = document.querySelector('.language-menu');
+
+const setLanguageMenuOpen = (open) => {
+  if (!languageSwitcher || !languageTrigger || !languageMenu) return;
+  languageMenu.hidden = !open;
+  languageTrigger.setAttribute('aria-expanded', String(open));
+};
+
+languageTrigger?.addEventListener('click', () => {
+  setLanguageMenuOpen(languageMenu.hidden);
+});
+
+document.addEventListener('click', (event) => {
+  if (languageSwitcher && !languageSwitcher.contains(event.target)) {
+    setLanguageMenuOpen(false);
+  }
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    setLanguageMenuOpen(false);
+  }
+});
+
 document.querySelectorAll('[data-lang]').forEach((button) => {
   button.addEventListener('click', () => {
     const language = applyLanguage(button.dataset.lang);
     track('language_changed', { to_language: language });
+    setLanguageMenuOpen(false);
   });
 });
 

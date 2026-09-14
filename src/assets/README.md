@@ -7,3 +7,5 @@ Keep campaign media grouped by purpose:
 - `images/` contains campaign artwork, photos, and raster illustrations.
 
 Reference assets from HTML with paths such as `assets/images/hero.webp`. GitHub Pages copies this directory to the published `assets/` folder.
+
+Brand assets currently include `images/weex-logo.webp` and `images/cryptobaltic-mark.webp`. The CryptoBaltic wordmark is rendered as HTML so its Geist typography and gradient remain responsive.

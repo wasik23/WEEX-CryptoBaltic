@@ -1,0 +1,10 @@
+{
+  "name": "weex-cryptobaltic-landing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bilingual WEEX x CryptoBaltic campaign landing page.",
+  "scripts": {
+    "serve": "npx http-server . -a 127.0.0.1 -p 3001 -c-1",
+    "check": "node --check src/js/main.js"
+  }
+}

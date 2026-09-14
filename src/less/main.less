@@ -26,11 +26,34 @@ body {
   align-items: center;
   gap: 35px;
 }
-.weex-logo {
-  color: #e5c900;
-  font-weight: 800;
-  font-size: 18px;
+.brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
   text-decoration: none;
+}
+
+.weex-logo-image {
+  display: block;
+  width: 142px;
+  height: auto;
+}
+
+.cryptobaltic-logo {
+  display: block;
+  width: 190px;
+  height: auto;
+}
+
+.brand-separator {
+  color: @text;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.footer-brand {
+  display: inline-flex;
+  align-items: center;
 }
 .nav nav {
   display: flex;
@@ -519,14 +542,6 @@ footer {
 .nav {
   width: calc(100% - 48px);
   max-width: none;
-}
-.topbar .weex-logo {
-  font-size: 24px;
-}
-.topbar .weex-logo:after {
-  content: "  ×  🪙 CryptoBaltic";
-  color: #e7c92b;
-  font-size: 19px;
 }
 /* Canonical wide artwork framing */
 .hero-banner {

@@ -2,15 +2,16 @@
   "name": "weex-cryptobaltic-landing",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "yarn@1.22.22",
   "description": "Bilingual WEEX x CryptoBaltic campaign landing page.",
   "scripts": {
     "build:css": "mkdir -p dist/css && lessc src/less/index.less dist/css/main.css",
     "watch:css": "mkdir -p dist/css && lessc --watch src/less/index.less dist/css/main.css",
     "serve": "http-server . -a 127.0.0.1 -p 3001 -c-1",
     "dev": "concurrently \"npm:watch:css\" \"npm:serve\"",
-    "check": "npm run check:js",
+    "check": "yarn check:js",
     "check:js": "node --check src/js/config.js && node --check src/js/analytics.js && node --check src/js/i18n.js && node --check src/js/main.js",
-    "verify": "npm run check:js && npm run build:css"
+    "verify": "yarn check:js && yarn build:css"
   },
   "devDependencies": {
     "concurrently": "^9.2.4",

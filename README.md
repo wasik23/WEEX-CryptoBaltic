@@ -5,8 +5,8 @@ Static bilingual campaign page for English and Russian audiences. It uses plain 
 ## Run locally
 
 ```bash
-npm install
-npm run dev
+yarn install
+yarn dev
 ```
 
 Then open `http://127.0.0.1:3001/src/`. The LESS watcher writes the compiled stylesheet to `dist/css/main.css`.
@@ -14,12 +14,12 @@ Then open `http://127.0.0.1:3001/src/`. The LESS watcher writes the compiled sty
 For a one-time production stylesheet build:
 
 ```bash
-npm run build:css
+yarn build:css
 ```
 
 The LESS entry point is `src/less/index.less`, which imports shared tokens from `variables.less`, the page rules from `main.less`, and responsive overrides from `responsive.less`.
 
-Use `npm run check` for a fast JavaScript syntax check. Use `npm run verify` before deployment to validate JavaScript and compile the production CSS.
+Use `yarn check` for a fast JavaScript syntax check. Use `yarn verify` before deployment to validate JavaScript and compile the production CSS.
 
 The HTML entry point is `src/index.html`. It contains the document metadata, CSP, semantic sections, language hooks (`data-i18n`), and analytics hooks (`data-cta`, `data-community`, and `data-track`). GitHub Pages copies this source entry point to `public/index.html` and adjusts the compiled stylesheet path during deployment.
 

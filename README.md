@@ -19,6 +19,8 @@ npm run build:css
 
 The LESS entry point is `src/less/index.less`, which imports shared tokens from `variables.less`, the page rules from `main.less`, and responsive overrides from `responsive.less`.
 
+The HTML entry point is `src/index.html`. It contains the document metadata, CSP, semantic sections, language hooks (`data-i18n`), and analytics hooks (`data-cta`, `data-community`, and `data-track`). GitHub Pages copies this source entry point to `public/index.html` and adjusts the compiled stylesheet path during deployment.
+
 ## GitHub Pages deployment
 
 The workflow in `.github/workflows/pages.yml` publishes the `src/` directory on every push to `main` or `master`. In the repository settings, set **Pages → Build and deployment → Source** to **GitHub Actions**. The workflow will then provide the published URL after its first successful run.

@@ -13,6 +13,87 @@
     }
   };
 
+  const pageCopy = {
+    en: {
+      navHow: 'How it works',
+      navRewards: 'Rewards',
+      navChallenge: 'Challenge',
+      stepFourTitle: 'Stay connected',
+      stepFourText: 'Follow CryptoBaltic for updates and new trading events.',
+      startedEyebrow: 'Your campaign path',
+      startedTitle: 'Four steps to get started',
+      tabAccount: 'Create a WEEX account',
+      tabDeposit: 'Deposit',
+      tabFollow: 'Follow CryptoBaltic live',
+      tabTrade: 'Trade',
+      cardStep: 'Step 3',
+      cardText: 'Watch real-time trade setups',
+      offerEyebrow: 'New-user campaign',
+      offerTitle: 'Exclusive welcome offer',
+      offerSignup: 'Sign up',
+      offerSignupReward: '10 USDT coupon',
+      offerFutures: 'Futures trading',
+      offerFuturesReward: '25 USDT trial fund',
+      offerDeposit: 'Deposit',
+      offerDepositReward: '10 USDT coupon',
+      offerTrade: 'First futures trade',
+      offerTradeReward: '100 USDT position airdrop',
+      challengeEyebrow: 'Trade with a plan',
+      challengeTitle: 'Challenge the best',
+      challengeListTitle: 'Five ways to win',
+      challengeOneTitle: 'Best risk-adjusted performance',
+      challengeOneText: 'Achieve strong returns while managing risk.',
+      challengeTwoTitle: 'Highest ROI',
+      challengeTwoText: 'Deliver the highest return on investment.',
+      challengeThreeTitle: 'Highest trading volume',
+      challengeThreeText: 'Generate the most trading volume.',
+      challengeFourTitle: 'Most profitable trades',
+      challengeFourText: 'Finish with the strongest results.',
+      footerDownload: 'Equip your AI. Dominate the market',
+      footerDownloadApp: 'Download App'
+    },
+    ru: {
+      navHow: 'Как это работает',
+      navRewards: 'Награды',
+      navChallenge: 'Челлендж',
+      stepFourTitle: 'Оставайтесь в сообществе',
+      stepFourText: 'Следите за обновлениями CryptoBaltic и новыми событиями.',
+      startedEyebrow: 'Ваш путь в кампании',
+      startedTitle: 'Четыре шага для старта',
+      tabAccount: 'Создайте аккаунт WEEX',
+      tabDeposit: 'Пополните счёт',
+      tabFollow: 'Следите за CryptoBaltic',
+      tabTrade: 'Торгуйте',
+      cardStep: 'Шаг 3',
+      cardText: 'Смотрите торговые идеи в реальном времени',
+      offerEyebrow: 'Кампания для новых пользователей',
+      offerTitle: 'Эксклюзивное приветственное предложение',
+      offerSignup: 'Регистрация',
+      offerSignupReward: 'Купон 10 USDT',
+      offerFutures: 'Торговля фьючерсами',
+      offerFuturesReward: 'Пробный фонд 25 USDT',
+      offerDeposit: 'Пополнение счёта',
+      offerDepositReward: 'Купон 10 USDT',
+      offerTrade: 'Первая торговля фьючерсами',
+      offerTradeReward: 'Эйрдроп позиции 100 USDT',
+      challengeEyebrow: 'Торгуйте по плану',
+      challengeTitle: 'Бросьте вызов лучшим',
+      challengeListTitle: 'Пять способов победить',
+      challengeOneTitle: 'Лучшая доходность с учётом риска',
+      challengeOneText: 'Получайте сильный результат, управляя риском.',
+      challengeTwoTitle: 'Самый высокий ROI',
+      challengeTwoText: 'Покажите максимальную окупаемость инвестиций.',
+      challengeThreeTitle: 'Самый высокий торговый объём',
+      challengeThreeText: 'Создайте наибольший торговый объём.',
+      challengeFourTitle: 'Самые прибыльные сделки',
+      challengeFourText: 'Завершите кампанию с лучшим результатом.',
+      footerDownload: 'Оснастите свой ИИ. Покоряйте рынок',
+      footerDownloadApp: 'Скачать приложение'
+    }
+  };
+
+  Object.entries(pageCopy).forEach(([language, copy]) => Object.assign(translations[language], copy));
+
   const track = (event, payload = {}) => {
     const detail = { event, ...payload, language: document.documentElement.lang, timestamp: new Date().toISOString() };
     window.dataLayer = window.dataLayer || [];

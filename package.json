@@ -8,7 +8,7 @@
     "watch:css": "mkdir -p dist/css && lessc --watch src/less/index.less dist/css/main.css",
     "serve": "http-server . -a 127.0.0.1 -p 3001 -c-1",
     "dev": "concurrently \"npm:watch:css\" \"npm:serve\"",
-    "check": "node --check src/js/main.js && npm run build:css"
+    "check": "node --check src/js/config.js && node --check src/js/analytics.js && node --check src/js/i18n.js && node --check src/js/main.js && npm run build:css"
   },
   "devDependencies": {
     "concurrently": "^9.2.4",

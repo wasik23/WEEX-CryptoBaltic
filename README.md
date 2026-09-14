@@ -21,9 +21,28 @@ The LESS entry point is `src/less/index.less`, which imports shared tokens from 
 
 The HTML entry point is `src/index.html`. It contains the document metadata, CSP, semantic sections, language hooks (`data-i18n`), and analytics hooks (`data-cta`, `data-community`, and `data-track`). GitHub Pages copies this source entry point to `public/index.html` and adjusts the compiled stylesheet path during deployment.
 
+## Source folders
+
+```text
+src/
+├── assets/
+│   ├── fonts/
+│   ├── icons/
+│   └── images/
+├── js/
+│   ├── analytics.js
+│   ├── config.js
+│   ├── i18n.js
+│   └── main.js
+├── less/
+└── index.html
+```
+
+JavaScript uses native ES modules. `main.js` is the entrypoint and imports the configuration, analytics, and language modules. No bundler step is required; the Pages workflow copies `src/js` and `src/assets` into the published site.
+
 ## GitHub Pages deployment
 
-The workflow in `.github/workflows/pages.yml` publishes the `src/` directory on every push to `main` or `master`. In the repository settings, set **Pages → Build and deployment → Source** to **GitHub Actions**. The workflow will then provide the published URL after its first successful run.
+The workflow in `.github/workflows/pages.yml` builds the LESS output, prepares a `public/` site with `index.html`, `assets/`, `js/`, and `dist/css/`, then publishes it on every push to `main` or `master`. In the repository settings, set **Pages → Build and deployment → Source** to **GitHub Actions**. The workflow will then provide the published URL after its first successful run.
 
 ## Configure campaign links
 

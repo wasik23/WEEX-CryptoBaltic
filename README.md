@@ -1,14 +1,23 @@
 # WEEX x CryptoBaltic landing page
 
-Static bilingual campaign page for English and Russian audiences. It uses plain HTML, CSS, and JavaScript so it can be deployed to GitHub Pages, an object store, or any static host.
+Static bilingual campaign page for English and Russian audiences. It uses plain HTML, LESS, and JavaScript so it can be deployed to GitHub Pages, an object store, or any static host.
 
 ## Run locally
 
 ```bash
-npm run serve
+npm install
+npm run dev
 ```
 
-Then open `http://127.0.0.1:3001/src/`.
+Then open `http://127.0.0.1:3001/src/`. The LESS watcher writes the compiled stylesheet to `dist/css/main.css`.
+
+For a one-time production stylesheet build:
+
+```bash
+npm run build:css
+```
+
+The LESS entry point is `src/less/index.less`, which imports shared tokens from `variables.less`, the page rules from `main.less`, and responsive overrides from `responsive.less`.
 
 ## GitHub Pages deployment
 

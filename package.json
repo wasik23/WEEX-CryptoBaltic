@@ -4,7 +4,15 @@
   "private": true,
   "description": "Bilingual WEEX x CryptoBaltic campaign landing page.",
   "scripts": {
-    "serve": "npx http-server . -a 127.0.0.1 -p 3001 -c-1",
-    "check": "node --check src/js/main.js"
+    "build:css": "mkdir -p dist/css && lessc src/less/index.less dist/css/main.css",
+    "watch:css": "mkdir -p dist/css && lessc --watch src/less/index.less dist/css/main.css",
+    "serve": "http-server . -a 127.0.0.1 -p 3001 -c-1",
+    "dev": "concurrently \"npm:watch:css\" \"npm:serve\"",
+    "check": "node --check src/js/main.js && npm run build:css"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.4",
+    "http-server": "^14.1.1",
+    "less": "^4.8.0"
   }
 }

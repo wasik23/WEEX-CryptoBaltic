@@ -25,17 +25,30 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
-      - name: Validate JavaScript
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and validate
         run: npm run check
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      - name: Prepare site
+        run: |
+          mkdir -p public/dist/css
+          cp src/index.html public/index.html
+          cp -r src/assets public/assets 2>/dev/null || true
+          cp -r src/js public/js
+          cp dist/css/main.css public/dist/css/main.css
+          sed -i 's#../dist/css/main.css#dist/css/main.css#g' public/index.html
+
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: src
+          path: public
 
   deploy:
     environment:

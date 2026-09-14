@@ -1,0 +1,26 @@
+@media (max-width: 700px) {
+  .wrap {
+    width: min(100% - 32px, @content-width);
+  }
+
+  .hero-word {
+    max-width: calc(100% - 24px);
+    overflow: hidden;
+    font-size: clamp(58px, 19vw, 96px);
+  }
+
+  .hero-actions {
+    width: calc(100% - 32px);
+  }
+
+  .hero-actions .pill {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
+
+@media (min-width: 701px) {
+  .wrap {
+    width: min(calc(100% - (2 * @page-gutter)), @content-width);
+  }
+}

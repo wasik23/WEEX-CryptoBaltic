@@ -29,7 +29,8 @@
   text-align: center;
 }
 
-@media (max-width: 700px) {
+/* Mobile: 320px–767px. */
+@media (max-width: 767px) {
   .nav nav {
     display: none;
   }
@@ -150,7 +151,56 @@
   }
 }
 
-@media (min-width: 701px) {
+/* Tablet: 768px–1024px. */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .wrap {
+    width: calc(100% - 48px);
+    max-width: @content-width;
+  }
+
+  .nav nav {
+    display: flex;
+    flex: 1;
+    gap: 16px;
+  }
+
+  .nav-right .lang {
+    display: inline-block;
+  }
+
+  .hero-banner {
+    height: min(48vw, 420px);
+    min-height: 360px;
+  }
+
+  .hero-word {
+    top: 18%;
+    font-size: clamp(88px, 15vw, 180px);
+  }
+
+  .hero-medal {
+    top: 8%;
+    width: clamp(180px, 25vw, 240px);
+    height: clamp(180px, 25vw, 240px);
+  }
+
+  .hero-actions .pill {
+    min-width: 180px;
+    height: 52px;
+  }
+
+  .referral-grid,
+  .offer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .challenge-layout {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Desktop: 1025px and wider. */
+@media (min-width: 1025px) {
   .wrap {
     width: min(calc(100% - (2 * @page-gutter)), @content-width);
   }

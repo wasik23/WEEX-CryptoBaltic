@@ -40,6 +40,12 @@ src/
 
 JavaScript uses native ES modules. `main.js` is the entrypoint and imports the configuration, analytics, and language modules. No bundler step is required; the Pages workflow copies `src/js` and `src/assets` into the published site.
 
+Responsive breakpoints are defined in `src/less/responsive.less`:
+
+- Mobile: up to `767px`
+- Tablet: `768px` through `1024px`
+- Desktop: `1025px` and wider
+
 ## GitHub Pages deployment
 
 The workflow in `.github/workflows/pages.yml` builds the LESS output, prepares a `public/` site with `index.html`, `assets/`, `js/`, and `dist/css/`, then publishes it on every push to `main` or `master`. In the repository settings, set **Pages → Build and deployment → Source** to **GitHub Actions**. The workflow will then provide the published URL after its first successful run.

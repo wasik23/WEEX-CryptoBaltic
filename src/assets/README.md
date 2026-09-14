@@ -8,4 +8,4 @@ Keep campaign media grouped by purpose:
 
 Reference assets from HTML with paths such as `assets/images/hero.webp`. GitHub Pages copies this directory to the published `assets/` folder.
 
-Brand assets currently include `images/weex-logo.webp` and `images/cryptobaltic-mark.webp`. The CryptoBaltic wordmark is rendered as HTML so its Geist typography and gradient remain responsive.
+Brand assets currently include the exact supplied files converted to WebP: `images/weex-logo.webp` from `Logo.png` and `images/cryptobaltic-mark.webp` from `Ellipse 44512798.png`. The CryptoBaltic wordmark is rendered as HTML so its Geist typography and gradient remain responsive.

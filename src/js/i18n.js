@@ -2,6 +2,7 @@ import { languageStorageKey } from './config.js';
 
 export const translations = {
   en: {
+    joinNow: 'Join now',
     navCta: 'Trade on WEEX',
     navHow: 'How it works',
     navRewards: 'Rewards',
@@ -66,6 +67,7 @@ export const translations = {
     footerText: 'Crypto trading involves risk. Review the campaign terms before participating.'
   },
   ru: {
+    joinNow: 'Присоединиться',
     navCta: 'Торговать на WEEX',
     navHow: 'Как это работает',
     navRewards: 'Награды',

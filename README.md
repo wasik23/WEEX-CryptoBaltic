@@ -19,6 +19,8 @@ npm run build:css
 
 The LESS entry point is `src/less/index.less`, which imports shared tokens from `variables.less`, the page rules from `main.less`, and responsive overrides from `responsive.less`.
 
+Use `npm run check` for a fast JavaScript syntax check. Use `npm run verify` before deployment to validate JavaScript and compile the production CSS.
+
 The HTML entry point is `src/index.html`. It contains the document metadata, CSP, semantic sections, language hooks (`data-i18n`), and analytics hooks (`data-cta`, `data-community`, and `data-track`). GitHub Pages copies this source entry point to `public/index.html` and adjusts the compiled stylesheet path during deployment.
 
 ## Source folders

@@ -55,21 +55,30 @@ document.querySelectorAll('[data-lang]').forEach((button) => {
 
 document.querySelectorAll('[data-cta]').forEach((link) => {
   link.addEventListener('click', () => {
-    track('cta_clicked', { cta: link.dataset.cta });
+    track('cta_clicked', {
+      cta: link.dataset.cta,
+      destination: 'register'
+    });
     link.href = getCampaignLink('register');
   });
 });
 
 document.querySelectorAll('[data-event]').forEach((link) => {
   link.addEventListener('click', () => {
-    track('cta_clicked', { cta: link.dataset.event });
+    track('cta_clicked', {
+      cta: link.dataset.event,
+      destination: 'welcome_event'
+    });
     window.location.href = getCampaignLink('welcomeEvent');
   });
 });
 
 document.querySelectorAll('[data-signup]').forEach((link) => {
   const openSignup = () => {
-    track('cta_clicked', { cta: 'signup' });
+    track('cta_clicked', {
+      cta: 'signup',
+      destination: 'register'
+    });
     window.location.href = getCampaignLink('register');
   };
 
@@ -86,7 +95,9 @@ const stepTabs = [...document.querySelectorAll('[data-step][role="tab"]')];
 const stepPanels = [...document.querySelectorAll('[data-step-panel]')];
 const startedPanels = document.querySelector('.started-panels');
 
-const selectStep = (step) => {
+const selectStep = (step, source = 'script') => {
+  const previousStep = stepTabs.find((tab) => tab.getAttribute('aria-selected') === 'true')?.dataset.step;
+
   stepTabs.forEach((tab) => {
     const selected = tab.dataset.step === step;
     tab.classList.toggle('active', selected);
@@ -107,17 +118,19 @@ const selectStep = (step) => {
       stepPanels.forEach((panel) => startedPanels.appendChild(panel));
     }
   }
+
+  if (source === 'tab' && previousStep !== step) track('step_selected', { step });
 };
 
 stepTabs.forEach((tab, index) => {
-  tab.addEventListener('click', () => selectStep(tab.dataset.step));
+  tab.addEventListener('click', () => selectStep(tab.dataset.step, 'tab'));
   tab.addEventListener('keydown', (event) => {
     if (!['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
     event.preventDefault();
     const direction = event.key === 'ArrowDown' || event.key === 'ArrowRight' ? 1 : -1;
     const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? stepTabs.length - 1 : (index + direction + stepTabs.length) % stepTabs.length;
     stepTabs[nextIndex].focus();
-    selectStep(stepTabs[nextIndex].dataset.step);
+    selectStep(stepTabs[nextIndex].dataset.step, 'tab');
   });
 });
 selectStep('account');

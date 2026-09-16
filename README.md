@@ -58,6 +58,6 @@ Edit `src/js/main.js` and replace the `campaignLinks` values with the final WEEX
 
 ## Event tracking
 
-Every event is sent to `window.dataLayer` as `{ event, ...payload }`. If Google Analytics 4 is installed, the same event is forwarded to `window.gtag`. The adapter is intentionally provider-neutral; a production deployment can load GTM/GA4 before `main.js` or replace `window.WEEX_ANALYTICS.track` with the approved analytics SDK.
+Every event is sent to `window.dataLayer` as `{ event, ...payload }`. If Google Analytics 4 is installed, the same event is forwarded to `window.gtag`; an approved provider can also be connected through `window.WEEX_ANALYTICS.track`. Provider forwarding is disabled on local hosts by default and can be enabled for an intentional test with `?analytics_debug=1`. This prevents development traffic from reaching a production measurement project accidentally.
 
-Tracked events include `page_view`, `language_changed`, `cta_clicked`, `reward_clicked`, `community_clicked`, and `outbound_link_clicked`.
+Tracked events include `page_view`, `language_changed`, `cta_clicked`, `step_selected`, `reward_clicked`, `community_clicked`, and `outbound_link_clicked`. Events include the current language, page path, and client timestamp.

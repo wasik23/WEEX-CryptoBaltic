@@ -1,21 +1,52 @@
+const isLocalHost = () => {
+  if (typeof window === 'undefined') return true;
+
+  return window.location.protocol === 'file:'
+    || ['localhost', '127.0.0.1', '[::1]'].includes(window.location.hostname);
+};
+
+const isDebugEnabled = () => {
+  if (typeof window === 'undefined') return false;
+
+  return new URL(window.location.href).searchParams.get('analytics_debug') === '1';
+};
+
+const reportProviderError = (error) => {
+  if (isDebugEnabled()) console.error('[WEEX analytics]', error);
+};
+
 export function createTracker() {
+  const allowProviderForwarding = !isLocalHost() || isDebugEnabled();
+
   return (event, payload = {}) => {
-    const detail = {
-      event,
-      ...payload,
-      language: document.documentElement.lang,
+    if (!event) return;
+
+    const context = {
+      language: document.documentElement.lang || 'en',
+      page: window.location.pathname,
       timestamp: new Date().toISOString()
     };
+    const detail = { event, ...payload, ...context };
 
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(detail);
 
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', event, payload);
+    if (!allowProviderForwarding) return;
+
+    try {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', event, { ...payload, ...context });
+      }
+    } catch (error) {
+      reportProviderError(error);
     }
 
-    if (window.WEEX_ANALYTICS && typeof window.WEEX_ANALYTICS.track === 'function') {
-      window.WEEX_ANALYTICS.track(event, detail);
+    try {
+      if (window.WEEX_ANALYTICS && typeof window.WEEX_ANALYTICS.track === 'function') {
+        window.WEEX_ANALYTICS.track(event, detail);
+      }
+    } catch (error) {
+      reportProviderError(error);
     }
   };
 }

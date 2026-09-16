@@ -8,4 +8,4 @@ Keep campaign media grouped by purpose:
 
 Reference assets from HTML with paths such as `assets/images/hero.webp`. GitHub Pages copies this directory to the published `assets/` folder.
 
-Brand assets currently include the exact supplied files converted to WebP: `images/weex-logo.webp` from `Logo.png`, `images/cryptobaltic-mark.webp` from `Ellipse 44512798.png`, and `images/language-globe.webp` from `Frame (1).png`. The local Plus Jakarta Sans font files are stored in `fonts/` for the navigation CTA. The CryptoBaltic wordmark is rendered as HTML so its Geist typography and gradient remain responsive.
+Brand assets currently include the exact supplied files converted to WebP: `images/weex-logo.webp` from `Logo.png`, `images/cryptobaltic-mark.webp` from `Ellipse 44512798.png`, and `images/language-globe.webp` from `Frame (1).png`. The local Geist variable font is stored in `fonts/` and loaded by the page. The CryptoBaltic wordmark is rendered as HTML so its Geist typography and gradient remain responsive.

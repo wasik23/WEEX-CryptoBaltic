@@ -1,6 +1,6 @@
 export const campaignLinks = Object.freeze({
   register: Object.freeze({
-    en: 'https://www.weex.com/register?vipCode=mp4r4',
+    en: 'https://www.weex.com/register?vipCode=mp4r',
     ru: 'https://www.weex.com/ru/register?vipCode=mp4r'
   }),
   community: Object.freeze({

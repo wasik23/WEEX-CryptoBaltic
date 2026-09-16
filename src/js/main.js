@@ -328,13 +328,14 @@ if (challengeCards.length && challengeTrack && !window.matchMedia('(prefers-redu
   const challengeMobileOffset = 32;
   const challengeMoveDuration = 420;
   const challengeCycleDuration = 5200;
+  const challengeDesktopDistance = 112;
   const challengeActiveOffset = challengeMobile.matches ? 0 : 1;
 
   challengeLoopCards.forEach((card) => card.classList.remove('selected'));
   challengeCards[challengeActiveOffset].classList.add('selected');
 
   const setChallengeTransform = () => {
-    const distance = challengeMobile.matches ? window.innerWidth - 96 : 108;
+    const distance = challengeMobile.matches ? window.innerWidth - 96 : challengeDesktopDistance;
     challengeTrack.style.transform = challengeMobile.matches
       ? `translateX(calc(-${(challengePosition + 1) * distance}px + ${challengeMobileOffset}px))`
       : `translateY(-${challengePosition * distance}px)`;

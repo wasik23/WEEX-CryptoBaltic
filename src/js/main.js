@@ -325,7 +325,6 @@ if (challengeCards.length && challengeTrack && !window.matchMedia('(prefers-redu
   });
   let challengePosition = 0;
   const challengeDots = [...document.querySelectorAll('.challenge-dots span')];
-  const challengeMobileOffset = 32;
   const challengeMoveDuration = 420;
   const challengeCycleDuration = 5200;
   const challengeDesktopDistance = 112;
@@ -335,10 +334,21 @@ if (challengeCards.length && challengeTrack && !window.matchMedia('(prefers-redu
   challengeCards[challengeActiveOffset].classList.add('selected');
 
   const setChallengeTransform = () => {
-    const distance = challengeMobile.matches ? window.innerWidth - 96 : challengeDesktopDistance;
-    challengeTrack.style.transform = challengeMobile.matches
-      ? `translateX(calc(-${(challengePosition + 1) * distance}px + ${challengeMobileOffset}px))`
-      : `translateY(-${challengePosition * distance}px)`;
+    if (!challengeMobile.matches) {
+      challengeTrack.style.transform = `translateY(-${challengePosition * challengeDesktopDistance}px)`;
+      return;
+    }
+
+    const trackWindow = challengeTrack.parentElement;
+    const cardWidth = challengeCards[0].getBoundingClientRect().width;
+    const trackStyles = window.getComputedStyle(challengeTrack);
+    const gap = parseFloat(trackStyles.columnGap || trackStyles.gap) || 0;
+    const inset = parseFloat(window.getComputedStyle(trackWindow).paddingLeft) || 0;
+    const step = cardWidth + gap;
+    const centeredCardStart = (trackWindow.getBoundingClientRect().width - cardWidth) / 2;
+    const firstCardStart = inset + step;
+    const baseOffset = centeredCardStart - firstCardStart;
+    challengeTrack.style.transform = `translateX(${baseOffset - (challengePosition * step)}px)`;
   };
 
   if (challengeMobile.matches) {

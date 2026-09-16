@@ -21,25 +21,19 @@
     <header class="topbar" id="top">
       <div class="wrap nav">
         <a class="brand-lockup" href="#top" data-track="brand" aria-label="WEEX and CryptoBaltic home">
-          <img class="weex-logo-image" src="assets/images/weex-logo.webp" alt="WEEX" />
+          <picture>
+            <source media="(max-width: 767px)" srcset="assets/images/weex-logo-mobile.webp" />
+            <img class="weex-logo-image" src="assets/images/weex-logo.webp" alt="WEEX" />
+          </picture>
           <span class="brand-separator" aria-hidden="true">×</span>
           <span class="cryptobaltic-lockup">
-            <img class="cryptobaltic-mark" src="assets/images/cryptobaltic-mark.webp" alt="" />
+            <picture>
+              <source media="(max-width: 767px)" srcset="assets/images/cryptobaltic-mark-mobile.webp" />
+              <img class="cryptobaltic-mark" src="assets/images/cryptobaltic-mark.webp" alt="" />
+            </picture>
             <span class="cryptobaltic-wordmark">CryptoBaltic</span>
           </span>
         </a>
-
-        <nav aria-label="Main navigation">
-          <a href="#steps" data-track="nav_steps" data-i18n="navHow">
-            How it works
-          </a>
-          <a href="#offers" data-track="nav_rewards" data-i18n="navRewards">
-            Rewards
-          </a>
-          <a href="#challenge" data-track="nav_challenge" data-i18n="navChallenge">
-            Challenge
-          </a>
-        </nav>
 
         <div class="nav-right">
           <div class="language-switcher">
@@ -80,12 +74,10 @@
         <h1 id="hero-title" class="visually-hidden" data-i18n="heroTitle">
           Trade smarter. Unlock your WEEX rewards.
         </h1>
-        <div class="hero-word" aria-hidden="true">CryptoBaltic</div>
-        <div class="hero-medal" aria-label="CryptoBaltic campaign">
-          <span data-i18n="liveBadge">CAMPAIGN LIVE</span>
-          <b>CRYPTO<br />BALTIC</b>
-          <small>WEEX</small>
-        </div>
+        <picture class="hero-art" aria-hidden="true">
+          <source media="(max-width: 767px)" srcset="assets/images/cryptobaltic-hero-mobile.webp" />
+          <img src="assets/images/cryptobaltic-hero-desktop.webp" alt="" />
+        </picture>
         <div class="hero-actions">
           <a
             class="pill yellow"
@@ -93,7 +85,7 @@
             data-cta="hero"
             data-i18n="heroCta"
           >
-            Get my rewards
+            Join WEEX
           </a>
           <a
             class="pill white"
@@ -106,172 +98,252 @@
         </div>
       </section>
 
+      <nav class="mobile-section-nav" aria-label="Campaign sections">
+        <a href="#steps" aria-current="page" data-section-link="steps" data-i18n="stepsTitle">
+          Structured trading
+        </a>
+        <a href="#rewards" data-section-link="rewards" data-i18n="rewardsTitle">
+          More than a referral
+        </a>
+        <a href="#started" data-section-link="started" data-i18n="startedTitle">
+          Four steps to get started
+        </a>
+        <a href="#offers" data-section-link="offers" data-i18n="offerTitle">
+          Exclusive welcome offer
+        </a>
+        <a href="#challenge" data-section-link="challenge" data-i18n="challengeTitle">
+          Challenge the best
+        </a>
+        <a href="#community" data-section-link="community" data-i18n="communityNavTitle">
+          Trade alongside CryptoBaltic
+        </a>
+      </nav>
+
       <section class="timeline wrap" id="steps" aria-labelledby="steps-title">
-        <p class="section-eyebrow" data-i18n="stepsEyebrow">Simple participation</p>
-        <h2 id="steps-title" data-i18n="stepsTitle">Start in three steps</h2>
+        <h2 id="steps-title" data-i18n="stepsTitle">Structured trading</h2>
         <div class="timeline-line">
           <article class="timeline-step">
             <b>1</b>
-            <strong data-i18n="stepOneTitle">Register</strong>
-            <small data-i18n="stepOneText">
-              Use the CryptoBaltic referral link to create your WEEX account.
-            </small>
+            <strong data-i18n="stepOneTitle">Enter trade</strong>
+            <small data-i18n="stepOneText">Open your position</small>
           </article>
           <article class="timeline-step">
             <b>2</b>
-            <strong data-i18n="stepTwoTitle">Deposit and trade</strong>
-            <small data-i18n="stepTwoText">
-              Complete the qualifying action shown in the campaign terms.
-            </small>
+            <strong data-i18n="stepTwoTitle">Set stop loss</strong>
+            <small data-i18n="stepTwoText">Predefine your risk</small>
           </article>
           <article class="timeline-step">
             <b>3</b>
-            <strong data-i18n="stepThreeTitle">Receive rewards</strong>
-            <small data-i18n="stepThreeText">
-              Track your progress and receive eligible rewards in your account.
-            </small>
+            <strong data-i18n="stepThreeTitle">Set take profit</strong>
+            <small data-i18n="stepThreeText">Set strategic targets</small>
           </article>
           <article class="timeline-step">
             <b>4</b>
-            <strong data-i18n="stepFourTitle">Stay connected</strong>
-            <small data-i18n="stepFourText">
-              Follow CryptoBaltic for updates and new trading events.
-            </small>
+            <strong data-i18n="stepFourTitle">Review results</strong>
+            <small data-i18n="stepFourText">Track your performance</small>
           </article>
         </div>
       </section>
 
-      <section class="referral wrap" aria-labelledby="rewards-title">
-        <p class="section-eyebrow" data-i18n="rewardsEyebrow">
-          Exclusive for CryptoBaltic
-        </p>
-        <h2 id="rewards-title" data-i18n="rewardsTitle">More ways to get rewarded</h2>
-        <div class="referral-grid">
-          <article data-reward="welcome">
-            <span class="mini-icon" aria-hidden="true">▰</span>
-            <div>
-              <strong data-i18n="rewardOneTitle">Welcome rewards</strong>
-              <small data-i18n="rewardOneText">
-                Register with the CryptoBaltic link and unlock the new-user campaign.
-              </small>
-            </div>
-          </article>
-          <article data-reward="trading">
-            <span class="mini-icon" aria-hidden="true">◈</span>
-            <div>
-              <strong data-i18n="rewardTwoTitle">Trading rewards</strong>
-              <small data-i18n="rewardTwoText">
-                Trade qualifying volume and participate in active WEEX events.
-              </small>
-            </div>
-          </article>
-          <article data-reward="community">
-            <span class="mini-icon" aria-hidden="true">▣</span>
-            <div>
-              <strong data-i18n="rewardThreeTitle">Community access</strong>
-              <small data-i18n="rewardThreeText">
-                Connect with CryptoBaltic traders for updates, signals, and support.
-              </small>
-            </div>
-          </article>
+      <section class="referral wrap" id="rewards" aria-labelledby="rewards-title">
+        <h2 id="rewards-title" data-i18n="rewardsTitle">More than a referral</h2>
+        <div class="referral-marquee">
+          <div class="referral-grid">
+            <article data-reward="community">
+              <img class="mini-icon" src="assets/images/reward-community-hd.webp" alt="" />
+              <div>
+                <strong data-i18n="rewardOneTitle">Trading community</strong>
+                <small data-i18n="rewardOneText">Private community access</small>
+              </div>
+            </article>
+            <article data-reward="trading">
+              <img class="mini-icon" src="assets/images/reward-setups-hd.webp" alt="" />
+              <div>
+                <strong data-i18n="rewardTwoTitle">Trading setups</strong>
+                <small data-i18n="rewardTwoText">Real-time livestreams</small>
+              </div>
+            </article>
+            <article data-reward="markets">
+              <img class="mini-icon" src="assets/images/reward-discussions-hd.webp" alt="" />
+              <div>
+                <strong data-i18n="rewardThreeTitle">Market discussions</strong>
+                <small data-i18n="rewardThreeText">BTC, ETH, altcoins, and more</small>
+              </div>
+            </article>
+            <article data-reward="welcome">
+              <img class="mini-icon" src="assets/images/reward-rewards-hd.webp" alt="" />
+              <div>
+                <strong data-i18n="rewardFourTitle">WEEX rewards</strong>
+                <small data-i18n="rewardFourText">Exclusive perks and gifts</small>
+              </div>
+            </article>
+            <article data-reward="competitions">
+              <img class="mini-icon" src="assets/images/reward-competitions-hd.webp" alt="" />
+              <div>
+                <strong data-i18n="rewardFiveTitle">Competitions</strong>
+                <small data-i18n="rewardFiveText">Private community events</small>
+              </div>
+            </article>
+            <article aria-hidden="true">
+              <img class="mini-icon" src="assets/images/reward-community-hd.webp" alt="" />
+              <div><strong data-i18n="rewardOneTitle">Trading community</strong><small data-i18n="rewardOneText">Private community access</small></div>
+            </article>
+            <article aria-hidden="true">
+              <img class="mini-icon" src="assets/images/reward-setups-hd.webp" alt="" />
+              <div><strong data-i18n="rewardTwoTitle">Trading setups</strong><small data-i18n="rewardTwoText">Real-time livestreams</small></div>
+            </article>
+            <article aria-hidden="true">
+              <img class="mini-icon" src="assets/images/reward-discussions-hd.webp" alt="" />
+              <div><strong data-i18n="rewardThreeTitle">Market discussions</strong><small data-i18n="rewardThreeText">BTC, ETH, altcoins, and more</small></div>
+            </article>
+            <article aria-hidden="true">
+              <img class="mini-icon" src="assets/images/reward-rewards-hd.webp" alt="" />
+              <div><strong data-i18n="rewardFourTitle">WEEX rewards</strong><small data-i18n="rewardFourText">Exclusive perks and gifts</small></div>
+            </article>
+            <article aria-hidden="true">
+              <img class="mini-icon" src="assets/images/reward-competitions-hd.webp" alt="" />
+              <div><strong data-i18n="rewardFiveTitle">Competitions</strong><small data-i18n="rewardFiveText">Private community events</small></div>
+            </article>
+          </div>
+        </div>
+        <div class="referral-dots" aria-label="Referral highlights">
+          <span class="active" aria-current="true"></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
       </section>
 
-      <section class="started wrap" aria-labelledby="started-title">
-        <p class="section-eyebrow" data-i18n="startedEyebrow">Your campaign path</p>
+      <section class="started wrap" id="started" aria-labelledby="started-title">
         <h2 id="started-title" data-i18n="startedTitle">Four steps to get started</h2>
         <div class="started-layout">
           <div class="tabs" role="tablist" aria-label="Campaign steps">
-            <button class="active" type="button" role="tab" aria-selected="true" data-i18n="tabAccount">
+            <button class="active" id="tab-account" type="button" role="tab" aria-selected="true" aria-controls="panel-account" data-step="account" data-i18n="tabAccount">
               Create a WEEX account
             </button>
-            <button type="button" role="tab" aria-selected="false" data-i18n="tabDeposit">
+            <button id="tab-deposit" type="button" role="tab" aria-selected="false" aria-controls="panel-deposit" data-step="deposit" data-i18n="tabDeposit">
               Deposit
             </button>
-            <button type="button" role="tab" aria-selected="false" data-i18n="tabFollow">
+            <button id="tab-follow" type="button" role="tab" aria-selected="false" aria-controls="panel-follow" data-step="follow" data-i18n="tabFollow">
               Follow CryptoBaltic live
             </button>
-            <button type="button" role="tab" aria-selected="false" data-i18n="tabTrade">
+            <button id="tab-trade" type="button" role="tab" aria-selected="false" aria-controls="panel-trade" data-step="trade" data-i18n="tabTrade">
               Trade
             </button>
           </div>
-          <article class="started-card">
-            <div class="card-top" data-i18n="cardStep">Step 3</div>
-            <div class="started-copy">
-              <h3 data-i18n="tabFollow">Follow CryptoBaltic live</h3>
-              <p data-i18n="cardText">Watch real-time trade setups</p>
-              <a class="view" href="#community" data-community data-i18n="seeDetails">
-                View
-              </a>
-            </div>
-            <div class="coin-art" aria-hidden="true">◉<i>+</i></div>
-          </article>
+          <div class="started-panels">
+            <article class="started-card" id="panel-account" role="tabpanel" aria-labelledby="tab-account" data-step-panel="account">
+              <div class="card-top">Step 1</div>
+              <div class="started-copy">
+                <h3 data-i18n="tabAccount">Create a WEEX account</h3>
+                <p data-i18n="accountCardText">Register via the invite link</p>
+              </div>
+              <div class="started-art" aria-hidden="true"><img src="assets/images/started-account.webp" alt="" /></div>
+            </article>
+            <article class="started-card" id="panel-deposit" role="tabpanel" aria-labelledby="tab-deposit" data-step-panel="deposit" hidden>
+              <div class="card-top">Step 2</div>
+              <div class="started-copy">
+                <h3 data-i18n="tabDeposit">Deposit</h3>
+                <p data-i18n="depositCardText">Unlock exclusive perks</p>
+              </div>
+              <div class="started-art" aria-hidden="true"><img src="assets/images/started-deposit.webp" alt="" /></div>
+            </article>
+            <article class="started-card" id="panel-follow" role="tabpanel" aria-labelledby="tab-follow" data-step-panel="follow" hidden>
+              <div class="card-top">Step 3</div>
+              <div class="started-copy">
+                <h3 data-i18n="tabFollow">Follow CryptoBaltic live</h3>
+                <p data-i18n="cardText">Watch real-time trade setups</p>
+              </div>
+              <div class="started-art" aria-hidden="true"><img src="assets/images/started-follow.webp" alt="" /></div>
+            </article>
+            <article class="started-card" id="panel-trade" role="tabpanel" aria-labelledby="tab-trade" data-step-panel="trade" hidden>
+              <div class="card-top">Step 4</div>
+              <div class="started-copy">
+                <h3 data-i18n="tabTrade">Trade</h3>
+                <p data-i18n="tradeCardText">Start trading on WEEX</p>
+              </div>
+              <div class="started-art" aria-hidden="true"><img src="assets/images/started-trade.webp" alt="" /></div>
+            </article>
+          </div>
         </div>
       </section>
 
       <section class="offers wrap" id="offers" aria-labelledby="offers-title">
-        <p class="section-eyebrow" data-i18n="offerEyebrow">New-user campaign</p>
         <h2 id="offers-title" data-i18n="offerTitle">Exclusive welcome offer</h2>
         <div class="offer-grid">
-          <article data-reward="signup">
-            <header><span data-i18n="offerSignup">Sign up</span> <b aria-hidden="true">→</b></header>
-            <div><span class="gift" aria-hidden="true">▣</span><small data-i18n="offerSignupReward">10 USDT coupon</small></div>
+          <article data-reward="signup" data-signup role="link" tabindex="0" aria-label="Sign up on WEEX">
+            <header><span data-i18n="offerSignup">Sign up</span> <img class="offer-button" src="assets/images/offer-button.webp" alt="" aria-hidden="true" /></header>
+            <div><img class="offer-gift-box" src="assets/images/offer-gift-box.webp" alt="" aria-hidden="true" /><span class="offer-reward"><small data-i18n="offerSignupReward">10 USDT coupon</small><img src="assets/images/offer-gift.webp" alt="" aria-hidden="true" /></span></div>
           </article>
-          <article data-reward="futures">
-            <header><span data-i18n="offerFutures">Futures trading</span> <b aria-hidden="true">→</b></header>
-            <div><span class="gift" aria-hidden="true">▣</span><small data-i18n="offerFuturesReward">25 USDT trial fund</small></div>
+          <article data-reward="first-trade" data-event="welcome-event">
+            <header><span data-i18n="offerTrade">First futures trade</span> <img class="offer-button" src="assets/images/offer-button.webp" alt="" aria-hidden="true" /></header>
+            <div><img class="offer-gift-box" src="assets/images/offer-gift-box.webp" alt="" aria-hidden="true" /><span class="offer-reward"><small data-i18n="offerTradeReward">100 USDT position airdrop</small><img src="assets/images/offer-gift.webp" alt="" aria-hidden="true" /></span></div>
           </article>
-          <article data-reward="deposit">
-            <header><span data-i18n="offerDeposit">Deposit</span> <b aria-hidden="true">→</b></header>
-            <div><span class="gift" aria-hidden="true">▣</span><small data-i18n="offerDepositReward">10 USDT coupon</small></div>
+          <article data-reward="deposit" data-event="welcome-event">
+            <header><span data-i18n="offerDeposit">Deposit</span> <img class="offer-button" src="assets/images/offer-button.webp" alt="" aria-hidden="true" /></header>
+            <div><img class="offer-gift-box" src="assets/images/offer-gift-box.webp" alt="" aria-hidden="true" /><span class="offer-reward"><small data-i18n="offerDepositReward">10 USDT coupon</small><img src="assets/images/offer-gift.webp" alt="" aria-hidden="true" /></span></div>
           </article>
-          <article data-reward="first-trade">
-            <header><span data-i18n="offerTrade">First futures trade</span> <b aria-hidden="true">→</b></header>
-            <div><span class="gift" aria-hidden="true">▣</span><small data-i18n="offerTradeReward">100 USDT position airdrop</small></div>
+          <article data-reward="futures" data-event="welcome-event">
+            <header><span data-i18n="offerFutures">Futures rush</span> <img class="offer-button" src="assets/images/offer-button.webp" alt="" aria-hidden="true" /></header>
+            <div><img class="offer-gift-box" src="assets/images/offer-gift-box.webp" alt="" aria-hidden="true" /><span class="offer-reward"><small data-i18n="offerFuturesReward">25 USDT trial fund</small><img src="assets/images/offer-gift.webp" alt="" aria-hidden="true" /></span></div>
           </article>
         </div>
       </section>
 
       <section class="challenge wrap" id="challenge" aria-labelledby="challenge-title">
-        <p class="section-eyebrow" data-i18n="challengeEyebrow">Trade with a plan</p>
         <h2 id="challenge-title" data-i18n="challengeTitle">Challenge the best</h2>
         <div class="challenge-layout">
-          <div class="challenge-list">
-            <h3 data-i18n="challengeListTitle">Five ways to win</h3>
-            <article>
-              <strong data-i18n="challengeOneTitle">Best risk-adjusted performance</strong>
-              <small data-i18n="challengeOneText">Achieve strong returns while managing risk.</small>
-            </article>
-            <article class="selected">
-              <strong data-i18n="challengeTwoTitle">Highest ROI</strong>
-              <small data-i18n="challengeTwoText">Deliver the highest return on investment.</small>
-            </article>
-            <article>
-              <strong data-i18n="challengeThreeTitle">Highest trading volume</strong>
-              <small data-i18n="challengeThreeText">Generate the most trading volume.</small>
-            </article>
-            <article>
-              <strong data-i18n="challengeFourTitle">Most profitable trades</strong>
-              <small data-i18n="challengeFourText">Finish with the strongest results.</small>
-            </article>
+          <div class="challenge-list" data-challenge-carousel>
+            <h3><img src="assets/images/challenge-competition.webp" alt="" /><span data-i18n="challengeListTitle">Five ways to win</span></h3>
+            <div class="challenge-track-window">
+              <div class="challenge-track">
+                <article>
+                  <strong data-i18n="challengeOneTitle">Best risk-adjusted performance</strong>
+                  <small data-i18n="challengeOneText">Achieve strong returns while managing risk.</small>
+                </article>
+                <article class="selected">
+                  <strong data-i18n="challengeTwoTitle">Highest ROI</strong>
+                  <small data-i18n="challengeTwoText">Deliver the highest return on investment.</small>
+                </article>
+                <article>
+                  <strong data-i18n="challengeThreeTitle">Highest trading volume</strong>
+                  <small data-i18n="challengeThreeText">Generate the most trading volume.</small>
+                </article>
+                <article>
+                  <strong data-i18n="challengeFourTitle">Longest profitable streak</strong>
+                  <small data-i18n="challengeFourText">Build the longest streak of profitable trades.</small>
+                </article>
+                <article>
+                  <strong data-i18n="challengeFiveTitle">Best monthly trader</strong>
+                  <small data-i18n="challengeFiveText">Finish the month as the top-performing trader.</small>
+                </article>
+              </div>
+            </div>
+            <div class="challenge-dots" aria-label="Challenge cards">
+              <span class="active" aria-current="true"></span>
+              <span></span><span></span><span></span><span></span>
+            </div>
           </div>
           <div class="city-art" aria-hidden="true">
-            <span>₿</span><b>♛</b><i>✦</i>
+            <picture>
+              <source media="(max-width: 767px)" srcset="assets/images/challenge-city-mobile.png" />
+              <img src="assets/images/challenge-city.png" alt="" />
+            </picture>
           </div>
         </div>
       </section>
 
       <section class="community wrap" id="community" aria-labelledby="community-title">
-        <p class="section-eyebrow" data-i18n="communityEyebrow">CryptoBaltic community</p>
-        <h2 id="community-title" data-i18n="communityTitle">
-          Trade with a community behind you.
+        <h2 id="community-title">
+          <span data-i18n="communityTitlePrefix">Trade alongside </span><em data-i18n="communityTitleBrand">CryptoBaltic</em>
         </h2>
         <p data-i18n="communityText">
           Follow market conversations, campaign updates, and practical trading education from CryptoBaltic.
         </p>
         <div>
           <a class="pill yellow" href="#offers" data-cta="community" data-i18n="navCta">
-            Trade on WEEX
+            Join WEEX
           </a>
           <a class="pill white" href="#community" data-community data-i18n="communityCta">
             Join CryptoBaltic
@@ -280,26 +352,37 @@
       </section>
     </main>
 
-    <footer>
-      <div class="wrap footer-inner">
-        <div>
-          <a class="footer-brand" href="#top" data-track="footer_brand" aria-label="WEEX home">
-            <img class="weex-logo-image" src="assets/images/weex-logo.webp" alt="WEEX" />
+    <footer class="site-footer">
+      <div class="wrap footer-grid">
+        <div class="footer-brand-block">
+          <a class="footer-brand-link" href="#top" data-track="footer_brand" aria-label="WEEX home">
+            <img class="footer-brand-logo" src="assets/images/weex-logo.svg" alt="WEEX" />
           </a>
-          <div class="socials" aria-label="Social channels">●　●　●　●　●　●</div>
+          <h3 class="footer-community-title">Community</h3>
+          <div class="footer-socials" aria-label="WEEX social links">
+            <a href="#" aria-label="WEEX on Facebook"><img src="assets/icons/footer-facebook.svg" alt="" /></a>
+            <a href="#" aria-label="WEEX on YouTube"><img src="assets/icons/footer-youtube.svg" alt="" /></a>
+            <a href="#" aria-label="WEEX on CoinMarketCap"><img src="assets/icons/footer-coinmarketcap.svg" alt="" /></a>
+            <a href="#" aria-label="WEEX on Telegram"><img src="assets/icons/footer-telegram.svg" alt="" /></a>
+            <a href="#" aria-label="WEEX on Discord"><img src="assets/icons/footer-discord.svg" alt="" /></a>
+            <a href="#" aria-label="WEEX on LinkedIn"><img src="assets/icons/footer-linkedin.svg" alt="" /></a>
+            <a href="#" aria-label="WEEX on X"><img src="assets/icons/footer-x.svg" alt="" /></a>
+          </div>
         </div>
-        <div class="download">
-          <strong data-i18n="footerDownload">Equip your AI. Dominate the market</strong>
-          <small data-i18n="footerDownloadApp">Download App</small>
-          <a class="pill white" href="#offers" data-cta="footer" data-i18n="navCta">
-            Trade on WEEX
-          </a>
-          <span class="qr" aria-hidden="true">▦</span>
+        <div class="footer-links">
+          <div><h3>About</h3><a href="#">About Us</a><a href="#">Media Kit</a><a href="#">WEEX Community</a><a href="#">Announcement</a></div>
+          <div><h3>Support</h3><a href="#">Help Center</a><a href="#">Fee Schedule</a><a href="#">Trading Rules</a><a href="#">Contact Verifier</a></div>
+          <div><h3>Compliance</h3><a href="#">Legal Statement</a><a href="#">Risk Disclosure</a><a href="#">Terms and Policies</a><a href="#">Privacy Policy</a></div>
+          <div><h3>Products</h3><a href="#">Futures</a><a href="#">Spot</a><a href="#">Copy Trade</a><a href="#">Markets</a></div>
+        </div>
+        <div class="footer-download">
+          <h3>Equip your AI. Dominate the market</h3>
+          <img class="footer-qr" src="assets/images/footer-download-qr.webp" alt="WEEX app download QR code" />
+          <p>Download app</p>
+          <a class="pill white" href="#offers" data-cta="footer">Sign Up</a>
         </div>
       </div>
-      <p class="footer-note" data-i18n="footerText">
-        Crypto trading involves risk. Review the campaign terms before participating.
-      </p>
+      <p class="footer-note" data-i18n="footerText">Crypto trading involves risk. Review the campaign terms before participating.</p>
     </footer>
 
     <script type="module" src="js/main.js"></script>

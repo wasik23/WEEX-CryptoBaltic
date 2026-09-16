@@ -339,6 +339,8 @@ vertical-align: bottom;
   padding-top: 10px;
 }
 .tabs button {
+  width: 100%;
+  min-width: 0;
   background: none;
   border: 0;
   color: #777;
@@ -350,6 +352,9 @@ vertical-align: bottom;
   line-height: 100%;
   letter-spacing: 0;
   text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 .tabs button.active {
   color: @yellow;
@@ -711,7 +716,7 @@ letter-spacing: 0%;
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(90deg, rgba(1, 1, 1, 0.2) 0%, rgba(1, 1, 1, 0) 70%);
+  background: none;
   pointer-events: none;
 }
 .community {

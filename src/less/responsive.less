@@ -227,6 +227,14 @@
     gap: 12px;
   }
 
+  .offer-grid header {
+    font-size: 14px;
+  }
+
+  .offer-reward small {
+    font-size: 12px;
+  }
+
   .city-art {
     width: 100%;
     height: 340px;
@@ -265,7 +273,7 @@
   }
 
   .challenge .city-art::after {
-    background: linear-gradient(90deg, rgba(1, 1, 1, 0.25) 0%, rgba(1, 1, 1, 0) 70%);
+    background: none;
   }
 
   .challenge .challenge-list {
@@ -425,6 +433,8 @@
     font-size: 22px;
     line-height: 1.2;
     white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   .tabs button.active {
@@ -704,6 +714,13 @@
   }
 }
 
+/* Desktop and tablet use the header CTA instead of overlaying buttons on the hero art. */
+@media (min-width: 768px) {
+  .hero-actions {
+    display: none;
+  }
+}
+
 /* Tablet: 768px–1024px. */
 @media (min-width: 768px) and (max-width: 1024px) {
   .started-layout {
@@ -715,7 +732,6 @@
     min-width: 952px;
   }
 
-  .tabs button,
   .started-card h3,
   .started-card p {
     white-space: nowrap;
@@ -804,7 +820,6 @@
     min-width: 952px;
   }
 
-  .tabs button,
   .started-card h3,
   .started-card p {
     white-space: nowrap;

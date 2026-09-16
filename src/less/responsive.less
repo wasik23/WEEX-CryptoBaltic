@@ -96,12 +96,14 @@
   .mobile-section-nav a {
     position: relative;
     flex: 0 0 auto;
+    max-width: 280px;
+    height: 40px;
     color: #777;
     font-size: 20px;
     font-weight: 700;
     line-height: 1.2;
     text-decoration: none;
-    white-space: nowrap;
+    white-space: normal;
     scroll-snap-align: start;
     transition: color 240ms ease;
   }
@@ -331,11 +333,20 @@
   }
 
   .community > div {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    gap: 8px;
   }
 
   .community > div .pill {
-    min-width: min(240px, 100%);
+    flex: 1 1 0;
+    min-width: 0;
+    height: 46px;
+    padding: 12px 8px;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    line-height: 1.1;
   }
 
   .referral-grid {
@@ -551,7 +562,13 @@
   .hero-actions .pill {
     min-width: 140px;
     height: 46px;
-    font-size: 16px;
+    padding: 12px 8px;
+    font-size: 14px;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    line-height: 1.1;
   }
 
   .hero-actions {

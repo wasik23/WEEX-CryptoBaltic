@@ -96,16 +96,24 @@
   .mobile-section-nav a {
     position: relative;
     flex: 0 0 auto;
-    max-width: 280px;
-    height: 40px;
+    max-width: none;
+    height: auto;
     color: #777;
     font-size: 20px;
     font-weight: 700;
     line-height: 1.2;
     text-decoration: none;
-    white-space: normal;
+    white-space: nowrap;
     scroll-snap-align: start;
     transition: color 240ms ease;
+  }
+
+  html[lang="ru"] .mobile-section-nav a {
+    max-width: 280px;
+    height: 40px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   .mobile-section-nav a::after {

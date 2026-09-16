@@ -41,6 +41,7 @@ jobs:
           mkdir -p public/dist/css
           mkdir -p public/src
           cp src/index.html public/index.html
+          cp CNAME public/CNAME
           cp -r src/assets public/assets 2>/dev/null || true
           cp -r src/assets public/src/assets 2>/dev/null || true
           cp -r src/js public/js

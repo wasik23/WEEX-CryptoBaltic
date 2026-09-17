@@ -440,7 +440,7 @@ const setupChallengeCarousel = () => {
   const challengeWindow = challengeTrack.parentElement;
   const challengeDots = [...document.querySelectorAll('.challenge-dots span')];
   const challengeMoveDuration = 420;
-  const challengeCycleDuration = 5200;
+  const challengeCycleDuration = 2000;
   const challengeDesktopDistance = 112;
   const challengeActiveOffset = 1;
   let challengeLoopCards = [...challengeCards];

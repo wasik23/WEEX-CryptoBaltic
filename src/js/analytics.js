@@ -1,3 +1,5 @@
+// Analytics helpers for local dataLayer events and optional provider forwarding.
+// Identify whether analytics is running on a local development host.
 const isLocalHost = () => {
   if (typeof window === 'undefined') return true;
 
@@ -5,16 +7,19 @@ const isLocalHost = () => {
     || ['localhost', '127.0.0.1', '[::1]'].includes(window.location.hostname);
 };
 
+// Check whether analytics debug logging was explicitly enabled.
 const isDebugEnabled = () => {
   if (typeof window === 'undefined') return false;
 
   return new URL(window.location.href).searchParams.get('analytics_debug') === '1';
 };
 
+// Report provider errors only when analytics debugging is enabled.
 const reportProviderError = (error) => {
   if (isDebugEnabled()) console.error('[WEEX analytics]', error);
 };
 
+// Create a tracker that records events locally and forwards them to providers.
 export function createTracker() {
   const allowProviderForwarding = !isLocalHost() || isDebugEnabled();
 

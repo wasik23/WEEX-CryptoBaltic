@@ -1,5 +1,6 @@
 import { languageStorageKey } from './config.js';
 
+// English and Russian page copy used by the data-i18n attributes in the HTML.
 export const translations = {
   en: {
     joinNow: 'Join now',
@@ -161,6 +162,7 @@ export const translations = {
   }
 };
 
+// Select the language from the URL, saved preference, or English fallback.
 export function resolveLanguage() {
   const queryLanguage = new URLSearchParams(window.location.search).get('lang');
   let storedLanguage = null;
@@ -174,6 +176,7 @@ export function resolveLanguage() {
   return translations[queryLanguage] ? queryLanguage : translations[storedLanguage] ? storedLanguage : 'en';
 }
 
+// Apply translated text, update language controls, and save the preference.
 export function applyLanguage(language) {
   const activeLanguage = translations[language] ? language : 'en';
   const dictionary = translations[activeLanguage];

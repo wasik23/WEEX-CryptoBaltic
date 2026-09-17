@@ -1,3 +1,4 @@
+// Campaign destinations and the storage key used for language preferences.
 export const campaignLinks = Object.freeze({
   register: Object.freeze({
     en: 'https://www.weex.com/register?vipCode=mp4r',

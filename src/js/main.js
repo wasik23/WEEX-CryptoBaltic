@@ -2,13 +2,17 @@ import { campaignLinks } from './config.js';
 import { createTracker } from './analytics.js';
 import { applyLanguage, resolveLanguage } from './i18n.js';
 
+// Page entrypoint for campaign links, language controls, analytics, tabs, and carousels.
 const track = createTracker();
 
+// Resolve campaign destinations for the active language.
+// Return the localized URL for a campaign action.
 const getCampaignLink = (type) => {
   const language = document.documentElement.lang || 'en';
   return campaignLinks[type][language] || campaignLinks[type].en;
 };
 
+// Update registration and community links after a language change.
 const syncCampaignLinks = () => {
   document.querySelectorAll('[data-cta]').forEach((link) => {
     link.href = getCampaignLink('register');
@@ -18,10 +22,12 @@ const syncCampaignLinks = () => {
   });
 };
 
+// Control the language dropdown and update translated campaign links.
 const languageSwitcher = document.querySelector('.language-switcher');
 const languageTrigger = document.querySelector('.language-trigger');
 const languageMenu = document.querySelector('.language-menu');
 
+// Open or close the language menu and synchronize its accessibility state.
 const setLanguageMenuOpen = (open) => {
   if (!languageSwitcher || !languageTrigger || !languageMenu) return;
   languageMenu.hidden = !open;
@@ -74,6 +80,7 @@ document.querySelectorAll('[data-event]').forEach((link) => {
 });
 
 document.querySelectorAll('[data-signup]').forEach((link) => {
+  // Navigate a signup card to the localized registration page.
   const openSignup = () => {
     track('cta_clicked', {
       cta: 'signup',
@@ -95,6 +102,7 @@ const stepTabs = [...document.querySelectorAll('[data-step][role="tab"]')];
 const stepPanels = [...document.querySelectorAll('[data-step-panel]')];
 const startedPanels = document.querySelector('.started-panels');
 
+// Select a campaign step and display its matching panel.
 const selectStep = (step, source = 'script') => {
   const previousStep = stepTabs.find((tab) => tab.getAttribute('aria-selected') === 'true')?.dataset.step;
 
@@ -160,6 +168,7 @@ document.querySelectorAll('a[data-track]').forEach((link) => {
   });
 });
 
+// Keep the mobile section navigation synchronized with the current scroll position.
 const sectionLinks = [...document.querySelectorAll('[data-section-link]')];
 if (sectionLinks.length) {
   const mobileSectionNav = window.matchMedia('(max-width: 767px)');
@@ -168,12 +177,14 @@ if (sectionLinks.length) {
   let activeSectionId = sectionLinks.find((link) => link.getAttribute('aria-current') === 'page')?.dataset.sectionLink;
   let navScrollFrame = 0;
 
+  // Stop an in-progress section-navigation animation.
   const cancelNavScroll = () => {
     if (!navScrollFrame) return;
     window.cancelAnimationFrame(navScrollFrame);
     navScrollFrame = 0;
   };
 
+  // Move the mobile section navigation to a target scroll position.
   const moveSectionNav = (targetLeft, animate) => {
     if (!mobileSectionNavElement) return;
     cancelNavScroll();
@@ -189,6 +200,7 @@ if (sectionLinks.length) {
 
     const duration = Math.min(420, Math.max(220, Math.abs(distance) * 0.6));
     const startedAt = performance.now();
+    // Animate the section navigation with an eased horizontal scroll.
     const animateScroll = (now) => {
       const progress = Math.min(1, (now - startedAt) / duration);
       const eased = 1 - ((1 - progress) ** 3);
@@ -204,6 +216,7 @@ if (sectionLinks.length) {
     navScrollFrame = window.requestAnimationFrame(animateScroll);
   };
 
+  // Mark the active section link and bring it into view on mobile.
   const setActiveSectionLink = (sectionId, animateNav = true) => {
     const changed = activeSectionId !== sectionId;
     activeSectionId = sectionId;
@@ -259,6 +272,7 @@ if (sectionLinks.length) {
     .filter(Boolean);
   let scrollFrame = 0;
 
+  // Toggle the compact sticky state of the mobile section navigation.
   const updateSectionNavState = () => {
     if (!mobileSectionNavElement) return;
     const stuck = mobileSectionNav.matches
@@ -266,6 +280,7 @@ if (sectionLinks.length) {
     mobileSectionNavElement.classList.toggle('is-stuck', stuck);
   };
 
+  // Derive the active section from the current scroll position.
   const updateActiveSection = () => {
     scrollFrame = 0;
     updateSectionNavState();
@@ -281,6 +296,7 @@ if (sectionLinks.length) {
     setActiveSectionLink(activeSection.id, false);
   };
 
+  // Schedule one scroll update per animation frame.
   const scheduleActiveSectionUpdate = () => {
     if (!mobileSectionNav.matches) return;
     if (scrollFrame) return;
@@ -293,11 +309,13 @@ if (sectionLinks.length) {
   scheduleActiveSectionUpdate();
 }
 
+// Track the active referral card and support mobile scrolling.
 const referralDots = [...document.querySelectorAll('.referral-dots span')];
 const referralMarquee = document.querySelector('.referral-marquee');
 const mobileCarousel = window.matchMedia('(max-width: 767px)');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+// Update the active referral pagination indicator.
 const setReferralDot = (index) => {
   referralDots.forEach((dot, dotIndex) => {
     const active = dotIndex === index;
@@ -306,6 +324,7 @@ const setReferralDot = (index) => {
   });
 };
 
+// Calculate the referral card nearest the current mobile scroll position.
 const updateReferralDot = () => {
   if (!referralMarquee || !referralDots.length) return;
   const firstCard = referralMarquee.querySelector('.referral-grid article');
@@ -328,6 +347,7 @@ if (referralDots.length && mobileCarousel.matches) {
   }, 3000);
 }
 
+// Select the centered mobile challenge card and animate the desktop challenge list.
 const challengeCards = [...document.querySelectorAll('[data-challenge-carousel] article')];
 const challengeTrack = document.querySelector('[data-challenge-carousel] .challenge-track');
 const challengeMobile = window.matchMedia('(max-width: 767px)');
@@ -335,6 +355,7 @@ if (challengeCards.length && challengeTrack && challengeMobile.matches) {
   const challengeWindow = challengeTrack.parentElement;
   const challengeDots = [...document.querySelectorAll('.challenge-dots span')];
 
+  // Select the challenge card closest to the center of the mobile viewport.
   const updateChallengeSelection = () => {
     if (!challengeWindow) return;
     const windowCenter = challengeWindow.scrollLeft + (challengeWindow.clientWidth / 2);
@@ -383,6 +404,7 @@ if (challengeCards.length && challengeTrack && !challengeMobile.matches && !redu
   challengeLoopCards.forEach((card) => card.classList.remove('selected'));
   challengeCards[challengeActiveOffset].classList.add('selected');
 
+  // Apply the current vertical position to the desktop challenge track.
   const setChallengeTransform = () => {
     challengeTrack.style.transform = `translateY(-${challengePosition * challengeDesktopDistance}px)`;
   };
@@ -419,6 +441,7 @@ if (challengeCards.length && challengeTrack && !challengeMobile.matches && !redu
   }, challengeCycleDuration);
 }
 
+// Apply the initial language, campaign URLs, and page-view analytics event.
 applyLanguage(resolveLanguage());
 syncCampaignLinks();
 track('page_view', { page: window.location.pathname });

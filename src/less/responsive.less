@@ -231,16 +231,41 @@
     min-width: 0;
   }
 
+  .offer-grid article {
+    height: auto;
+    min-height: 0;
+  }
+
+  .offer-grid article > div {
+    min-height: 0;
+  }
+
   .offer-grid {
     gap: 12px;
   }
 
   .offer-grid header {
+    height: 48px;
+    min-height: 48px;
+    padding-top: 7px;
+    padding-bottom: 7px;
     font-size: 14px;
   }
 
   .offer-reward small {
     font-size: 12px;
+  }
+
+  .offer-button {
+    flex-basis: 32px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .offer-gift-box {
+    flex-basis: 48px;
+    width: 48px;
+    height: 48px;
   }
 
   .city-art {
@@ -284,6 +309,10 @@
     background: none;
   }
 
+  .challenge .city-art::before {
+    background: none;
+  }
+
   .challenge .challenge-list {
     order: 2;
     width: 100%;
@@ -296,8 +325,11 @@
 
   .challenge-track-window {
     width: calc(100% + 32px);
+    height: 96px;
     margin-left: -16px;
     padding-left: 16px;
+    flex: 0 0 auto;
+    min-height: 96px;
     overflow-x: auto;
     overflow-y: hidden;
     overscroll-behavior-x: contain;
@@ -795,10 +827,20 @@
   }
 }
 
-/* Desktop and tablet use the header CTA instead of overlaying buttons on the hero art. */
+/* Keep the hero CTAs visible on desktop and tablet. */
 @media (min-width: 768px) {
   .hero-actions {
-    display: none;
+    display: flex;
+  }
+
+  html[lang="ru"] .hero-actions .pill {
+    width: 220px;
+    min-width: 220px;
+    height: 56px;
+    padding: 16px;
+    line-height: 1.1;
+    text-align: center;
+    white-space: normal;
   }
 }
 
@@ -883,6 +925,34 @@
 
   .offer-grid article {
     min-width: 0;
+  }
+
+  .offer-grid article {
+    height: auto;
+    min-height: 0;
+  }
+
+  .offer-grid article > div {
+    min-height: 0;
+  }
+
+  .offer-grid header {
+    height: 48px;
+    min-height: 48px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+
+  .offer-button {
+    flex-basis: 32px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .offer-gift-box {
+    flex-basis: 48px;
+    width: 48px;
+    height: 48px;
   }
 
   .challenge-layout {

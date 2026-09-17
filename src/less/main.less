@@ -58,7 +58,7 @@ body {
 
 .cryptobaltic-wordmark {
   color: #fff;
-  background: linear-gradient(90deg, #ffeb52 0%, #ff6400 39.66%);
+  background: linear-gradient(90deg, #FFEB52 0%, #FF6400 200%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -712,12 +712,37 @@ letter-spacing: 0%;
   object-fit: cover;
   object-position: center;
 }
+.city-art::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 2;
+  width: 1447px;
+  height: 101px;
+  opacity: 1;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    0deg,
+    #000 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  pointer-events: none;
+}
 .city-art::after {
   content: "";
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   z-index: 1;
-  background: none;
+  width: 60px;
+  height: 786px;
+  opacity: 1;
+  background: linear-gradient(
+    90deg,
+    #000 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
   pointer-events: none;
 }
 .community {

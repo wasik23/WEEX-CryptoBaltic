@@ -219,6 +219,7 @@ const setupSectionNavigation = () => {
   let activeSectionId = sectionLinks
     .find((link) => link.getAttribute('aria-current') === 'page')
     ?.dataset.sectionLink;
+  let pendingSectionId = null;
   let navScrollFrame = 0;
 
   // Cancel a menu animation when the user starts interacting with the scroll area.
@@ -305,9 +306,25 @@ const setupSectionNavigation = () => {
 
   sectionLinks.forEach((link) => {
     link.addEventListener('click', () => {
+      pendingSectionId = link.dataset.sectionLink;
       setActiveSectionLink(link.dataset.sectionLink);
     });
   });
+
+  // Map custom anchor targets such as #trade-alongside back to their section nav item.
+  const syncActiveSectionFromHash = () => {
+    const targetHash = window.location.hash;
+    if (!targetHash) return;
+
+    const targetLink = sectionLinks.find((link) => link.getAttribute('href') === targetHash);
+    if (targetLink) {
+      pendingSectionId = targetLink.dataset.sectionLink;
+      setActiveSectionLink(targetLink.dataset.sectionLink, false);
+    }
+  };
+
+  window.addEventListener('hashchange', syncActiveSectionFromHash);
+  syncActiveSectionFromHash();
 
   mobileSectionNavElement?.addEventListener('pointerdown', cancelNavScroll, { passive: true });
   mobileSectionNavElement?.addEventListener('wheel', cancelNavScroll, { passive: true });
@@ -333,6 +350,17 @@ const setupSectionNavigation = () => {
     if (!mobileSectionNav.matches || !sections.length) return;
 
     const marker = window.scrollY + Math.min(window.innerHeight * 0.35, 240);
+
+    // Keep the clicked item active while the browser is completing its anchor scroll.
+    if (pendingSectionId) {
+      const pendingSection = sections.find((section) => section.id === pendingSectionId);
+      if (pendingSection && pendingSection.offsetTop > marker) {
+        setActiveSectionLink(pendingSectionId, false);
+        return;
+      }
+      pendingSectionId = null;
+    }
+
     let activeSection = sections[0];
 
     sections.forEach((section) => {

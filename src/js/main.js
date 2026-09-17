@@ -2,189 +2,233 @@ import { campaignLinks } from './config.js';
 import { createTracker } from './analytics.js';
 import { applyLanguage, resolveLanguage } from './i18n.js';
 
-// Page entrypoint for campaign links, language controls, analytics, tabs, and carousels.
+const MOBILE_BREAKPOINT = '(max-width: 767px)';
+const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 const track = createTracker();
 
-// Resolve campaign destinations for the active language.
-// Return the localized URL for a campaign action.
+// Resolve a campaign destination for the current document language.
 const getCampaignLink = (type) => {
   const language = document.documentElement.lang || 'en';
   return campaignLinks[type][language] || campaignLinks[type].en;
 };
 
-// Update registration and community links after a language change.
+// Keep all localized campaign links synchronized after a language change.
 const syncCampaignLinks = () => {
   document.querySelectorAll('[data-cta]').forEach((link) => {
     link.href = getCampaignLink('register');
   });
+
   document.querySelectorAll('[data-community]').forEach((link) => {
     link.href = getCampaignLink('community');
   });
 };
 
-// Control the language dropdown and update translated campaign links.
-const languageSwitcher = document.querySelector('.language-switcher');
-const languageTrigger = document.querySelector('.language-trigger');
-const languageMenu = document.querySelector('.language-menu');
+// Set up the language menu and refresh localized text and campaign URLs.
+const setupLanguageSwitcher = () => {
+  const languageSwitcher = document.querySelector('.language-switcher');
+  const languageTrigger = document.querySelector('.language-trigger');
+  const languageMenu = document.querySelector('.language-menu');
 
-// Open or close the language menu and synchronize its accessibility state.
-const setLanguageMenuOpen = (open) => {
-  if (!languageSwitcher || !languageTrigger || !languageMenu) return;
-  languageMenu.hidden = !open;
-  languageTrigger.setAttribute('aria-expanded', String(open));
-};
-
-languageTrigger?.addEventListener('click', () => {
-  setLanguageMenuOpen(languageMenu.hidden);
-});
-
-document.addEventListener('click', (event) => {
-  if (languageSwitcher && !languageSwitcher.contains(event.target)) {
-    setLanguageMenuOpen(false);
-  }
-});
-
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') {
-    setLanguageMenuOpen(false);
-  }
-});
-
-document.querySelectorAll('[data-lang]').forEach((button) => {
-  button.addEventListener('click', () => {
-    const language = applyLanguage(button.dataset.lang);
-    syncCampaignLinks();
-    track('language_changed', { to_language: language });
-    setLanguageMenuOpen(false);
-  });
-});
-
-document.querySelectorAll('[data-cta]').forEach((link) => {
-  link.addEventListener('click', () => {
-    track('cta_clicked', {
-      cta: link.dataset.cta,
-      destination: 'register'
-    });
-    link.href = getCampaignLink('register');
-  });
-});
-
-document.querySelectorAll('[data-event]').forEach((link) => {
-  link.addEventListener('click', () => {
-    track('cta_clicked', {
-      cta: link.dataset.event,
-      destination: 'welcome_event'
-    });
-    window.location.href = getCampaignLink('welcomeEvent');
-  });
-});
-
-document.querySelectorAll('[data-signup]').forEach((link) => {
-  // Navigate a signup card to the localized registration page.
-  const openSignup = () => {
-    track('cta_clicked', {
-      cta: 'signup',
-      destination: 'register'
-    });
-    window.location.href = getCampaignLink('register');
+  const setLanguageMenuOpen = (open) => {
+    if (!languageSwitcher || !languageTrigger || !languageMenu) return;
+    languageMenu.hidden = !open;
+    languageTrigger.setAttribute('aria-expanded', String(open));
   };
 
-  link.addEventListener('click', openSignup);
-  link.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      openSignup();
+  languageTrigger?.addEventListener('click', () => {
+    setLanguageMenuOpen(languageMenu.hidden);
+  });
+
+  document.addEventListener('click', (event) => {
+    if (languageSwitcher && !languageSwitcher.contains(event.target)) {
+      setLanguageMenuOpen(false);
     }
   });
-});
 
-const stepTabs = [...document.querySelectorAll('[data-step][role="tab"]')];
-const stepPanels = [...document.querySelectorAll('[data-step-panel]')];
-const startedPanels = document.querySelector('.started-panels');
-
-// Select a campaign step and display its matching panel.
-const selectStep = (step, source = 'script') => {
-  const previousStep = stepTabs.find((tab) => tab.getAttribute('aria-selected') === 'true')?.dataset.step;
-
-  stepTabs.forEach((tab) => {
-    const selected = tab.dataset.step === step;
-    tab.classList.toggle('active', selected);
-    tab.setAttribute('aria-selected', String(selected));
-    tab.tabIndex = selected ? 0 : -1;
-  });
-  stepPanels.forEach((panel) => {
-    panel.hidden = panel.dataset.stepPanel !== step;
-  });
-
-  if (startedPanels) {
-    if (window.matchMedia('(max-width: 767px)').matches) {
-      stepPanels.forEach((panel) => startedPanels.appendChild(panel));
-      const activeTab = stepTabs.find((tab) => tab.dataset.step === step);
-      const activePanel = stepPanels.find((panel) => panel.dataset.stepPanel === step);
-      if (activeTab && activePanel) activeTab.after(activePanel);
-    } else {
-      stepPanels.forEach((panel) => startedPanels.appendChild(panel));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      setLanguageMenuOpen(false);
     }
-  }
+  });
 
-  if (source === 'tab' && previousStep !== step) track('step_selected', { step });
+  document.querySelectorAll('[data-lang]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const language = applyLanguage(button.dataset.lang);
+      syncCampaignLinks();
+      track('language_changed', { to_language: language });
+      setLanguageMenuOpen(false);
+    });
+  });
 };
 
-stepTabs.forEach((tab, index) => {
-  tab.addEventListener('click', () => selectStep(tab.dataset.step, 'tab'));
-  tab.addEventListener('keydown', (event) => {
-    if (!['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
-    event.preventDefault();
-    const direction = event.key === 'ArrowDown' || event.key === 'ArrowRight' ? 1 : -1;
-    const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? stepTabs.length - 1 : (index + direction + stepTabs.length) % stepTabs.length;
-    stepTabs[nextIndex].focus();
-    selectStep(stepTabs[nextIndex].dataset.step, 'tab');
+// Attach navigation behavior to registration, event, and signup actions.
+const setupRegistrationActions = () => {
+  document.querySelectorAll('[data-cta]').forEach((link) => {
+    link.addEventListener('click', () => {
+      track('cta_clicked', {
+        cta: link.dataset.cta,
+        destination: 'register'
+      });
+      link.href = getCampaignLink('register');
+    });
   });
-});
-selectStep('account');
 
-window.addEventListener('resize', () => {
-  if (startedPanels && !window.matchMedia('(max-width: 767px)').matches) {
-    stepPanels.forEach((panel) => startedPanels.appendChild(panel));
-  }
-});
-
-document.querySelectorAll('[data-reward]').forEach((item) => {
-  item.addEventListener('click', () => {
-    track('reward_clicked', { reward: item.dataset.reward });
+  document.querySelectorAll('[data-event]').forEach((link) => {
+    link.addEventListener('click', () => {
+      track('cta_clicked', {
+        cta: link.dataset.event,
+        destination: 'welcome_event'
+      });
+      window.location.href = getCampaignLink('welcomeEvent');
+    });
   });
-});
 
-document.querySelectorAll('[data-community]').forEach((link) => {
-  link.addEventListener('click', () => {
-    track('community_clicked');
-    link.href = getCampaignLink('community');
+  document.querySelectorAll('[data-signup]').forEach((link) => {
+    // Navigate a signup card to the localized registration page.
+    const openSignup = () => {
+      track('cta_clicked', {
+        cta: 'signup',
+        destination: 'register'
+      });
+      window.location.href = getCampaignLink('register');
+    };
+
+    link.addEventListener('click', openSignup);
+    link.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openSignup();
+      }
+    });
   });
-});
+};
 
-document.querySelectorAll('a[data-track]').forEach((link) => {
-  link.addEventListener('click', () => {
-    track('outbound_link_clicked', { link: link.dataset.track });
+// Keep each desktop/mobile tab group independent because both layouts exist in the DOM.
+const setupStepTabs = () => {
+  document.querySelectorAll('[data-step-group]').forEach((group) => {
+    const stepTabs = [...group.querySelectorAll('[data-step][role="tab"]')];
+    const stepPanels = [...group.querySelectorAll('[data-step-panel]')];
+    const startedPanels = group.querySelector('.started-panels');
+    const isMobileGroup = group.dataset.stepGroup === 'mobile';
+
+    const selectStep = (step, source = 'script') => {
+      const previousStep = stepTabs
+        .find((tab) => tab.getAttribute('aria-selected') === 'true')
+        ?.dataset.step;
+
+      stepTabs.forEach((tab) => {
+        const selected = tab.dataset.step === step;
+        tab.classList.toggle('active', selected);
+        tab.setAttribute('aria-selected', String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+      });
+
+      stepPanels.forEach((panel) => {
+        panel.hidden = panel.dataset.stepPanel !== step;
+      });
+
+      if (isMobileGroup && startedPanels) {
+        const activeTab = stepTabs.find((tab) => tab.dataset.step === step);
+        const activePanel = stepPanels.find((panel) => panel.dataset.stepPanel === step);
+
+        // On mobile, the selected panel appears immediately below its tab.
+        // The inactive panels stay in the separate container and remain hidden.
+        stepPanels
+          .filter((panel) => panel !== activePanel)
+          .forEach((panel) => startedPanels.appendChild(panel));
+
+        if (activeTab && activePanel) {
+          activeTab.insertAdjacentElement('afterend', activePanel);
+        }
+      }
+
+      if (source === 'tab' && previousStep !== step) {
+        track('step_selected', { step });
+      }
+    };
+
+    stepTabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => selectStep(tab.dataset.step, 'tab'));
+      tab.addEventListener('keydown', (event) => {
+        const supportedKeys = [
+          'ArrowDown',
+          'ArrowRight',
+          'ArrowUp',
+          'ArrowLeft',
+          'Home',
+          'End'
+        ];
+
+        if (!supportedKeys.includes(event.key)) return;
+
+        // Follow the ARIA tabs pattern: arrow keys move focus and activate a tab.
+        event.preventDefault();
+        const direction = event.key === 'ArrowDown' || event.key === 'ArrowRight' ? 1 : -1;
+        const nextIndex = event.key === 'Home'
+          ? 0
+          : event.key === 'End'
+            ? stepTabs.length - 1
+            : (index + direction + stepTabs.length) % stepTabs.length;
+
+        stepTabs[nextIndex].focus();
+        selectStep(stepTabs[nextIndex].dataset.step, 'tab');
+      });
+    });
+
+    const initialStep = stepTabs
+      .find((tab) => tab.getAttribute('aria-selected') === 'true')
+      ?.dataset.step || 'account';
+
+    selectStep(initialStep);
   });
-});
+};
 
-// Keep the mobile section navigation synchronized with the current scroll position.
-const sectionLinks = [...document.querySelectorAll('[data-section-link]')];
-if (sectionLinks.length) {
-  const mobileSectionNav = window.matchMedia('(max-width: 767px)');
+// Reward cards have their own analytics event in addition to any navigation event.
+const setupSignupTracking = () => {
+  document.querySelectorAll('[data-reward]').forEach((item) => {
+    item.addEventListener('click', () => {
+      track('reward_clicked', { reward: item.dataset.reward });
+    });
+  });
+};
+
+// Track community and external social links while preserving normal browser navigation.
+const setupCommunityTracking = () => {
+  document.querySelectorAll('[data-community]').forEach((link) => {
+    link.addEventListener('click', () => {
+      track('community_clicked');
+      link.href = getCampaignLink('community');
+    });
+  });
+
+  document.querySelectorAll('a[data-track]').forEach((link) => {
+    link.addEventListener('click', () => {
+      track('outbound_link_clicked', { link: link.dataset.track });
+    });
+  });
+};
+
+// Keep the horizontal mobile section menu aligned with the section currently in view.
+const setupSectionNavigation = () => {
+  const sectionLinks = [...document.querySelectorAll('[data-section-link]')];
+  if (!sectionLinks.length) return;
+
+  const mobileSectionNav = window.matchMedia(MOBILE_BREAKPOINT);
   const mobileSectionNavElement = document.querySelector('.mobile-section-nav');
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let activeSectionId = sectionLinks.find((link) => link.getAttribute('aria-current') === 'page')?.dataset.sectionLink;
+  const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY);
+  let activeSectionId = sectionLinks
+    .find((link) => link.getAttribute('aria-current') === 'page')
+    ?.dataset.sectionLink;
   let navScrollFrame = 0;
 
-  // Stop an in-progress section-navigation animation.
+  // Cancel a menu animation when the user starts interacting with the scroll area.
   const cancelNavScroll = () => {
     if (!navScrollFrame) return;
     window.cancelAnimationFrame(navScrollFrame);
     navScrollFrame = 0;
   };
 
-  // Move the mobile section navigation to a target scroll position.
+  // Scroll the active section link into view without interrupting user input.
   const moveSectionNav = (targetLeft, animate) => {
     if (!mobileSectionNavElement) return;
     cancelNavScroll();
@@ -200,7 +244,7 @@ if (sectionLinks.length) {
 
     const duration = Math.min(420, Math.max(220, Math.abs(distance) * 0.6));
     const startedAt = performance.now();
-    // Animate the section navigation with an eased horizontal scroll.
+
     const animateScroll = (now) => {
       const progress = Math.min(1, (now - startedAt) / duration);
       const eased = 1 - ((1 - progress) ** 3);
@@ -216,10 +260,11 @@ if (sectionLinks.length) {
     navScrollFrame = window.requestAnimationFrame(animateScroll);
   };
 
-  // Mark the active section link and bring it into view on mobile.
+  // Update the active link and ensure it is visible in the horizontal menu.
   const setActiveSectionLink = (sectionId, animateNav = true) => {
     const changed = activeSectionId !== sectionId;
     activeSectionId = sectionId;
+
     sectionLinks.forEach((link) => {
       const active = link.dataset.sectionLink === sectionId;
       if (active) {
@@ -272,15 +317,16 @@ if (sectionLinks.length) {
     .filter(Boolean);
   let scrollFrame = 0;
 
-  // Toggle the compact sticky state of the mobile section navigation.
+  // Add the compact sticky class only while the menu is visible on mobile.
   const updateSectionNavState = () => {
     if (!mobileSectionNavElement) return;
+
     const stuck = mobileSectionNav.matches
       && mobileSectionNavElement.getBoundingClientRect().top <= 64;
     mobileSectionNavElement.classList.toggle('is-stuck', stuck);
   };
 
-  // Derive the active section from the current scroll position.
+  // Use a viewport marker instead of the exact top edge to make section changes feel stable.
   const updateActiveSection = () => {
     scrollFrame = 0;
     updateSectionNavState();
@@ -296,7 +342,7 @@ if (sectionLinks.length) {
     setActiveSectionLink(activeSection.id, false);
   };
 
-  // Schedule one scroll update per animation frame.
+  // Limit scroll work to one animation frame at a time.
   const scheduleActiveSectionUpdate = () => {
     if (!mobileSectionNav.matches) return;
     if (scrollFrame) return;
@@ -307,57 +353,107 @@ if (sectionLinks.length) {
   window.addEventListener('resize', scheduleActiveSectionUpdate);
   window.addEventListener('load', scheduleActiveSectionUpdate, { once: true });
   scheduleActiveSectionUpdate();
-}
-
-// Track the active referral card and support mobile scrolling.
-const referralDots = [...document.querySelectorAll('.referral-dots span')];
-const referralMarquee = document.querySelector('.referral-marquee');
-const mobileCarousel = window.matchMedia('(max-width: 767px)');
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-// Update the active referral pagination indicator.
-const setReferralDot = (index) => {
-  referralDots.forEach((dot, dotIndex) => {
-    const active = dotIndex === index;
-    dot.classList.toggle('active', active);
-    dot.toggleAttribute('aria-current', active);
-  });
 };
 
-// Calculate the referral card nearest the current mobile scroll position.
-const updateReferralDot = () => {
-  if (!referralMarquee || !referralDots.length) return;
-  const firstCard = referralMarquee.querySelector('.referral-grid article');
-  const grid = referralMarquee.querySelector('.referral-grid');
-  if (!firstCard || !grid) return;
-  const gap = parseFloat(window.getComputedStyle(grid).columnGap) || 0;
-  const step = firstCard.getBoundingClientRect().width + gap;
-  const activeIndex = step ? Math.round(referralMarquee.scrollLeft / step) % referralDots.length : 0;
-  setReferralDot((activeIndex + referralDots.length) % referralDots.length);
+// Use native horizontal scrolling on mobile and a timed indicator on desktop.
+const setupReferralCarousel = () => {
+  const referralDots = [...document.querySelectorAll('.referral-dots span')];
+  const referralMarquee = document.querySelector('.referral-marquee');
+  const mobileCarousel = window.matchMedia(MOBILE_BREAKPOINT);
+  const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY);
+
+  // Update both the visual state and the accessible current-item state.
+  const setReferralDot = (index) => {
+    referralDots.forEach((dot, dotIndex) => {
+      const active = dotIndex === index;
+      dot.classList.toggle('active', active);
+      dot.toggleAttribute('aria-current', active);
+    });
+  };
+
+  // Convert the mobile scroll position into the nearest referral-card index.
+  const updateReferralDot = () => {
+    if (!referralMarquee || !referralDots.length) return;
+
+    const firstCard = referralMarquee.querySelector('.referral-grid article');
+    const grid = referralMarquee.querySelector('.referral-grid');
+    if (!firstCard || !grid) return;
+
+    const gap = parseFloat(window.getComputedStyle(grid).columnGap) || 0;
+    const step = firstCard.getBoundingClientRect().width + gap;
+    const activeIndex = step
+      ? Math.round(referralMarquee.scrollLeft / step) % referralDots.length
+      : 0;
+
+    setReferralDot((activeIndex + referralDots.length) % referralDots.length);
+  };
+
+  let referralInterval = 0;
+  let referralScrollAttached = false;
+
+  // Attach only the behavior required by the current responsive mode.
+  const syncReferralMode = () => {
+    if (!referralDots.length) return;
+
+    if (mobileCarousel.matches) {
+      if (referralInterval) {
+        window.clearInterval(referralInterval);
+        referralInterval = 0;
+      }
+
+      if (referralMarquee && !referralScrollAttached) {
+        referralMarquee.addEventListener('scroll', updateReferralDot, { passive: true });
+        referralScrollAttached = true;
+      }
+
+      updateReferralDot();
+      return;
+    }
+
+    if (referralMarquee && referralScrollAttached) {
+      referralMarquee.removeEventListener('scroll', updateReferralDot);
+      referralScrollAttached = false;
+    }
+
+    if (!reducedMotion.matches && !referralInterval) {
+      let activeReferralDot = 0;
+      referralInterval = window.setInterval(() => {
+        activeReferralDot = (activeReferralDot + 1) % referralDots.length;
+        setReferralDot(activeReferralDot);
+      }, 3000);
+    }
+  };
+
+  mobileCarousel.addEventListener('change', syncReferralMode);
+  syncReferralMode();
 };
 
-if (referralDots.length && mobileCarousel.matches) {
-  referralMarquee?.addEventListener('scroll', updateReferralDot, { passive: true });
-  updateReferralDot();
-} else if (referralDots.length && !reducedMotion.matches) {
-  let activeReferralDot = 0;
-  window.setInterval(() => {
-    activeReferralDot = (activeReferralDot + 1) % referralDots.length;
-    setReferralDot(activeReferralDot);
-  }, 3000);
-}
+// Use horizontal scrolling on mobile and a looping vertical animation on desktop.
+const setupChallengeCarousel = () => {
+  const challengeCards = [...document.querySelectorAll('[data-challenge-carousel] article')];
+  const challengeTrack = document.querySelector('[data-challenge-carousel] .challenge-track');
+  const challengeMobile = window.matchMedia(MOBILE_BREAKPOINT);
+  const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY);
 
-// Select the centered mobile challenge card and animate the desktop challenge list.
-const challengeCards = [...document.querySelectorAll('[data-challenge-carousel] article')];
-const challengeTrack = document.querySelector('[data-challenge-carousel] .challenge-track');
-const challengeMobile = window.matchMedia('(max-width: 767px)');
-if (challengeCards.length && challengeTrack && challengeMobile.matches) {
+  if (!challengeCards.length || !challengeTrack) return;
+
   const challengeWindow = challengeTrack.parentElement;
   const challengeDots = [...document.querySelectorAll('.challenge-dots span')];
+  const challengeMoveDuration = 420;
+  const challengeCycleDuration = 5200;
+  const challengeDesktopDistance = 112;
+  const challengeActiveOffset = 1;
+  let challengeLoopCards = [...challengeCards];
+  let challengePosition = 0;
+  let challengeInterval = 0;
+  let challengeStepTimer = 0;
+  let challengeResetTimer = 0;
+  let mobileScrollAttached = false;
 
-  // Select the challenge card closest to the center of the mobile viewport.
+  // Highlight whichever mobile card is closest to the center of the viewport.
   const updateChallengeSelection = () => {
     if (!challengeWindow) return;
+
     const windowCenter = challengeWindow.scrollLeft + (challengeWindow.clientWidth / 2);
     let activeIndex = 0;
     let closestDistance = Number.POSITIVE_INFINITY;
@@ -365,15 +461,21 @@ if (challengeCards.length && challengeTrack && challengeMobile.matches) {
 
     challengeCards.forEach((card, index) => {
       const cardRect = card.getBoundingClientRect();
-      const cardCenter = cardRect.left - windowRect.left + challengeWindow.scrollLeft + (cardRect.width / 2);
+      const cardCenter = cardRect.left - windowRect.left
+        + challengeWindow.scrollLeft
+        + (cardRect.width / 2);
       const distance = Math.abs(cardCenter - windowCenter);
+
       if (distance < closestDistance) {
         closestDistance = distance;
         activeIndex = index;
       }
     });
 
-    challengeCards.forEach((card, index) => card.classList.toggle('selected', index === activeIndex));
+    challengeCards.forEach((card, index) => {
+      card.classList.toggle('selected', index === activeIndex);
+    });
+
     challengeDots.forEach((dot, index) => {
       const active = index === activeIndex;
       dot.classList.toggle('active', active);
@@ -381,67 +483,116 @@ if (challengeCards.length && challengeTrack && challengeMobile.matches) {
     });
   };
 
-  challengeWindow?.addEventListener('scroll', updateChallengeSelection, { passive: true });
-  updateChallengeSelection();
-}
+  // Stop timers, remove desktop clones, and restore the original card list.
+  const stopChallengeDesktop = () => {
+    if (challengeInterval) {
+      window.clearInterval(challengeInterval);
+      challengeInterval = 0;
+    }
 
-if (challengeCards.length && challengeTrack && !challengeMobile.matches && !reducedMotion.matches) {
-  const challengeLoopCards = [...challengeCards];
-  challengeCards.forEach((card) => {
-    const loopClone = card.cloneNode(true);
-    loopClone.classList.remove('selected');
-    loopClone.setAttribute('aria-hidden', 'true');
-    challengeTrack.appendChild(loopClone);
-    challengeLoopCards.push(loopClone);
-  });
-  let challengePosition = 0;
-  const challengeDots = [...document.querySelectorAll('.challenge-dots span')];
-  const challengeMoveDuration = 420;
-  const challengeCycleDuration = 5200;
-  const challengeDesktopDistance = 112;
-  const challengeActiveOffset = 1;
-
-  challengeLoopCards.forEach((card) => card.classList.remove('selected'));
-  challengeCards[challengeActiveOffset].classList.add('selected');
-
-  // Apply the current vertical position to the desktop challenge track.
-  const setChallengeTransform = () => {
-    challengeTrack.style.transform = `translateY(-${challengePosition * challengeDesktopDistance}px)`;
+    window.clearTimeout(challengeStepTimer);
+    window.clearTimeout(challengeResetTimer);
+    challengeStepTimer = 0;
+    challengeResetTimer = 0;
+    challengeTrack.classList.remove('is-moving', 'is-resetting');
+    challengeTrack.style.transform = '';
+    challengeTrack.querySelectorAll('article[aria-hidden="true"]').forEach((card) => card.remove());
+    challengeLoopCards = [...challengeCards];
+    challengePosition = 0;
   };
 
-  window.setInterval(() => {
-    challengePosition += 1;
-    challengeTrack.classList.add('is-moving');
-    setChallengeTransform();
+  // Duplicate the cards once so the desktop list can loop without a visible jump.
+  const startChallengeDesktop = () => {
+    if (reducedMotion.matches || challengeInterval) return;
 
-    window.setTimeout(() => {
-      challengeLoopCards.forEach((card) => card.classList.remove('selected'));
-      const selectedIndex = challengePosition + challengeActiveOffset;
-      challengeLoopCards[selectedIndex].classList.add('selected');
-      challengeDots.forEach((dot, index) => {
-        const active = index === (challengePosition + challengeActiveOffset) % challengeCards.length;
-        dot.classList.toggle('active', active);
-        dot.toggleAttribute('aria-current', active);
-      });
+    challengeCards.forEach((card) => {
+      const loopClone = card.cloneNode(true);
+      loopClone.classList.remove('selected');
+      loopClone.setAttribute('aria-hidden', 'true');
+      challengeTrack.appendChild(loopClone);
+    });
 
-      if (challengePosition === challengeCards.length) {
-        window.setTimeout(() => {
-          challengeTrack.classList.add('is-resetting');
-          challengeTrack.style.transition = 'none';
-          challengePosition = 0;
-          challengeLoopCards.forEach((card) => card.classList.remove('selected'));
-          challengeCards[challengeActiveOffset].classList.add('selected');
-          challengeTrack.style.transform = 'translateY(0)';
-          challengeTrack.offsetHeight;
-          challengeTrack.style.transition = '';
-          challengeTrack.classList.remove('is-moving', 'is-resetting');
-        }, challengeMoveDuration);
+    challengeLoopCards = [...challengeTrack.querySelectorAll('article')];
+    challengeLoopCards.forEach((card) => card.classList.remove('selected'));
+    challengeCards[challengeActiveOffset]?.classList.add('selected');
+
+    const setChallengeTransform = () => {
+      challengeTrack.style.transform = `translateY(-${challengePosition * challengeDesktopDistance}px)`;
+    };
+
+    challengeInterval = window.setInterval(() => {
+      challengePosition += 1;
+      challengeTrack.classList.add('is-moving');
+      setChallengeTransform();
+
+      challengeStepTimer = window.setTimeout(() => {
+        challengeLoopCards.forEach((card) => card.classList.remove('selected'));
+        const selectedIndex = challengePosition + challengeActiveOffset;
+        challengeLoopCards[selectedIndex]?.classList.add('selected');
+
+        challengeDots.forEach((dot, index) => {
+          const active = index === (challengePosition + challengeActiveOffset) % challengeCards.length;
+          dot.classList.toggle('active', active);
+          dot.toggleAttribute('aria-current', active);
+        });
+
+        if (challengePosition === challengeCards.length) {
+          challengeResetTimer = window.setTimeout(() => {
+            challengeTrack.classList.add('is-resetting');
+            challengeTrack.style.transition = 'none';
+            challengePosition = 0;
+            challengeLoopCards.forEach((card) => card.classList.remove('selected'));
+            challengeCards[challengeActiveOffset]?.classList.add('selected');
+            challengeTrack.style.transform = 'translateY(0)';
+            challengeTrack.offsetHeight;
+            challengeTrack.style.transition = '';
+            challengeTrack.classList.remove('is-moving', 'is-resetting');
+          }, challengeMoveDuration);
+        }
+      }, challengeMoveDuration);
+    }, challengeCycleDuration);
+  };
+
+  // Switch carousel behavior when the viewport crosses the mobile breakpoint.
+  const syncChallengeMode = () => {
+    stopChallengeDesktop();
+
+    if (challengeMobile.matches) {
+      if (!mobileScrollAttached) {
+        challengeWindow?.addEventListener('scroll', updateChallengeSelection, { passive: true });
+        mobileScrollAttached = true;
       }
-    }, challengeMoveDuration);
-  }, challengeCycleDuration);
-}
 
-// Apply the initial language, campaign URLs, and page-view analytics event.
-applyLanguage(resolveLanguage());
-syncCampaignLinks();
-track('page_view', { page: window.location.pathname });
+      updateChallengeSelection();
+      return;
+    }
+
+    if (mobileScrollAttached) {
+      challengeWindow?.removeEventListener('scroll', updateChallengeSelection);
+      mobileScrollAttached = false;
+    }
+
+    startChallengeDesktop();
+  };
+
+  challengeMobile.addEventListener('change', syncChallengeMode);
+  syncChallengeMode();
+};
+
+// Initialize feature listeners before applying the persisted language and tracking page view.
+const init = () => {
+  setupLanguageSwitcher();
+  setupRegistrationActions();
+  setupStepTabs();
+  setupSignupTracking();
+  setupCommunityTracking();
+  setupSectionNavigation();
+  setupReferralCarousel();
+  setupChallengeCarousel();
+
+  applyLanguage(resolveLanguage());
+  syncCampaignLinks();
+  track('page_view', { page: window.location.pathname });
+};
+
+init();

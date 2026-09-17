@@ -218,23 +218,23 @@
 
       <section class="started wrap" id="started" aria-labelledby="started-title">
         <h2 id="started-title" data-i18n="startedTitle">Four steps to get started</h2>
-        <div class="started-layout">
+        <div class="started-layout started-layout-desktop" data-step-group="desktop">
           <div class="tabs" role="tablist" aria-label="Campaign steps">
-            <button class="active" id="tab-account" type="button" role="tab" aria-selected="true" aria-controls="panel-account" data-step="account" data-i18n="tabAccount">
+            <button class="active" id="desktop-tab-account" type="button" role="tab" aria-selected="true" aria-controls="desktop-panel-account" data-step="account" data-i18n="tabAccount">
               Create a WEEX account
             </button>
-            <button id="tab-deposit" type="button" role="tab" aria-selected="false" aria-controls="panel-deposit" data-step="deposit" data-i18n="tabDeposit">
+            <button id="desktop-tab-deposit" type="button" role="tab" aria-selected="false" aria-controls="desktop-panel-deposit" data-step="deposit" data-i18n="tabDeposit">
               Deposit
             </button>
-            <button id="tab-follow" type="button" role="tab" aria-selected="false" aria-controls="panel-follow" data-step="follow" data-i18n="tabFollow">
+            <button id="desktop-tab-follow" type="button" role="tab" aria-selected="false" aria-controls="desktop-panel-follow" data-step="follow" data-i18n="tabFollow">
               Follow CryptoBaltic live
             </button>
-            <button id="tab-trade" type="button" role="tab" aria-selected="false" aria-controls="panel-trade" data-step="trade" data-i18n="tabTrade">
+            <button id="desktop-tab-trade" type="button" role="tab" aria-selected="false" aria-controls="desktop-panel-trade" data-step="trade" data-i18n="tabTrade">
               Trade
             </button>
           </div>
           <div class="started-panels">
-            <article class="started-card" id="panel-account" role="tabpanel" aria-labelledby="tab-account" data-step-panel="account">
+            <article class="started-card" id="desktop-panel-account" role="tabpanel" aria-labelledby="desktop-tab-account" data-step-panel="account">
               <div class="card-top">Step 1</div>
               <div class="started-copy">
                 <h3 data-i18n="tabAccount">Create a WEEX account</h3>
@@ -242,7 +242,7 @@
               </div>
               <div class="started-art" aria-hidden="true"><img src="assets/images/started-account.webp" alt="" /></div>
             </article>
-            <article class="started-card" id="panel-deposit" role="tabpanel" aria-labelledby="tab-deposit" data-step-panel="deposit" hidden>
+            <article class="started-card" id="desktop-panel-deposit" role="tabpanel" aria-labelledby="desktop-tab-deposit" data-step-panel="deposit" hidden>
               <div class="card-top">Step 2</div>
               <div class="started-copy">
                 <h3 data-i18n="tabDeposit">Deposit</h3>
@@ -250,7 +250,7 @@
               </div>
               <div class="started-art" aria-hidden="true"><img src="assets/images/started-deposit.webp" alt="" /></div>
             </article>
-            <article class="started-card" id="panel-follow" role="tabpanel" aria-labelledby="tab-follow" data-step-panel="follow" hidden>
+            <article class="started-card" id="desktop-panel-follow" role="tabpanel" aria-labelledby="desktop-tab-follow" data-step-panel="follow" hidden>
               <div class="card-top">Step 3</div>
               <div class="started-copy">
                 <h3 data-i18n="tabFollow">Follow CryptoBaltic live</h3>
@@ -258,7 +258,57 @@
               </div>
               <div class="started-art" aria-hidden="true"><img src="assets/images/started-follow.webp" alt="" /></div>
             </article>
-            <article class="started-card" id="panel-trade" role="tabpanel" aria-labelledby="tab-trade" data-step-panel="trade" hidden>
+            <article class="started-card" id="desktop-panel-trade" role="tabpanel" aria-labelledby="desktop-tab-trade" data-step-panel="trade" hidden>
+              <div class="card-top">Step 4</div>
+              <div class="started-copy">
+                <h3 data-i18n="tabTrade">Trade</h3>
+                <p data-i18n="tradeCardText">Start trading on WEEX</p>
+              </div>
+              <div class="started-art" aria-hidden="true"><img src="assets/images/started-trade.webp" alt="" /></div>
+            </article>
+          </div>
+        </div>
+        <div class="started-layout started-layout-mobile" data-step-group="mobile">
+          <div class="tabs" role="tablist" aria-label="Campaign steps">
+            <button class="active" id="mobile-tab-account" type="button" role="tab" aria-selected="true" aria-controls="mobile-panel-account" data-step="account" data-i18n="tabAccount">
+              Create a WEEX account
+            </button>
+            <article class="started-card" id="mobile-panel-account" role="tabpanel" aria-labelledby="mobile-tab-account" data-step-panel="account">
+              <div class="card-top">Step 1</div>
+              <div class="started-copy">
+                <h3 data-i18n="tabAccount">Create a WEEX account</h3>
+                <p data-i18n="accountCardText">Register via the invite link</p>
+              </div>
+              <div class="started-art" aria-hidden="true"><img src="assets/images/started-account.webp" alt="" /></div>
+            </article>
+            <button id="mobile-tab-deposit" type="button" role="tab" aria-selected="false" aria-controls="mobile-panel-deposit" data-step="deposit" data-i18n="tabDeposit">
+              Deposit
+            </button>
+            <button id="mobile-tab-follow" type="button" role="tab" aria-selected="false" aria-controls="mobile-panel-follow" data-step="follow" data-i18n="tabFollow">
+              Follow CryptoBaltic live
+            </button>
+            <button id="mobile-tab-trade" type="button" role="tab" aria-selected="false" aria-controls="mobile-panel-trade" data-step="trade" data-i18n="tabTrade">
+              Trade
+            </button>
+          </div>
+          <div class="started-panels">
+            <article class="started-card" id="mobile-panel-deposit" role="tabpanel" aria-labelledby="mobile-tab-deposit" data-step-panel="deposit" hidden>
+              <div class="card-top">Step 2</div>
+              <div class="started-copy">
+                <h3 data-i18n="tabDeposit">Deposit</h3>
+                <p data-i18n="depositCardText">Unlock exclusive perks</p>
+              </div>
+              <div class="started-art" aria-hidden="true"><img src="assets/images/started-deposit.webp" alt="" /></div>
+            </article>
+            <article class="started-card" id="mobile-panel-follow" role="tabpanel" aria-labelledby="mobile-tab-follow" data-step-panel="follow" hidden>
+              <div class="card-top">Step 3</div>
+              <div class="started-copy">
+                <h3 data-i18n="tabFollow">Follow CryptoBaltic live</h3>
+                <p data-i18n="cardText">Watch real-time trade setups</p>
+              </div>
+              <div class="started-art" aria-hidden="true"><img src="assets/images/started-follow.webp" alt="" /></div>
+            </article>
+            <article class="started-card" id="mobile-panel-trade" role="tabpanel" aria-labelledby="mobile-tab-trade" data-step-panel="trade" hidden>
               <div class="card-top">Step 4</div>
               <div class="started-copy">
                 <h3 data-i18n="tabTrade">Trade</h3>

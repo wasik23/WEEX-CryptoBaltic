@@ -8,7 +8,7 @@
     "build:css": "mkdir -p dist/css && lessc src/less/index.less dist/css/main.css",
     "watch:css": "node scripts/watch-css.js",
     "serve": "http-server . -a 127.0.0.1 -p 3001 -c-1",
-    "dev": "concurrently \"node scripts/watch-css.js\" \"http-server . -a 127.0.0.1 -p 3001 -c-1\"",
+    "dev": "yarn build:css && concurrently \"node scripts/watch-css.js\" \"http-server . -a 127.0.0.1 -p 3001 -c-1\"",
     "check": "yarn check:js",
     "check:js": "node --check src/js/config.js && node --check src/js/analytics.js && node --check src/js/i18n.js && node --check src/js/main.js",
     "verify": "yarn check:js && yarn build:css"

@@ -504,7 +504,17 @@
 
   .started-layout {
     grid-template-columns: 1fr;
-    height: 309px;
+    gap: 0;
+    height: auto;
+    min-height: 0;
+  }
+
+  .started-layout-desktop {
+    display: none;
+  }
+
+  .started-layout-mobile {
+    display: grid;
   }
 
   .tabs {
@@ -559,6 +569,7 @@
   }
 
   .tabs .started-card {
+    display: block;
     width: 100%;
     margin: 8px 0 8px;
     min-height: 98px;
@@ -578,8 +589,8 @@
   }
 
   .started-card {
-    min-height: 244px;
-    height: 244px;
+    min-height: 98px;
+    height: 98px;
   }
 
   .started-card::after {
@@ -616,7 +627,7 @@
     font-size: 22px;
   }
 
-  .tabs .started-card .started-copy h3 {
+  .started-card .started-copy h3 {
     display: none;
   }
 

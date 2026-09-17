@@ -343,6 +343,7 @@ vertical-align: bottom;
   min-width: 0;
   background: none;
   border: 0;
+  border-bottom: 2px solid var(--Border-border-heavy, #FFFFFF33);
   color: #777;
   text-align: left;
   padding: 0 0 10px;
@@ -373,7 +374,7 @@ vertical-align: bottom;
   width: 100%;
   min-height: 244px;
   height: 244px;
-  border: 1px solid #282828;
+  border: none;
   border-radius: 12px;
   overflow: hidden;
   background: #000;
@@ -673,12 +674,12 @@ letter-spacing: 0%;
   inset: 0 auto 0 0;
   z-index: 2;
   width: 22px;
-  border-left: 2.5px solid #ffffff29;
+  border-left: 2px solid #ffffff29;
   border-radius: 23.5px 0 0 23.5px;
   pointer-events: none;
 }
 .challenge-list article.selected::before {
-  border-left: 2.5px solid @yellow;
+  border-left: 2px solid @yellow;
 }
 .challenge-list small {
   display: block;

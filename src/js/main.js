@@ -294,28 +294,78 @@ if (sectionLinks.length) {
 }
 
 const referralDots = [...document.querySelectorAll('.referral-dots span')];
-if (referralDots.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+const referralMarquee = document.querySelector('.referral-marquee');
+const mobileCarousel = window.matchMedia('(max-width: 767px)');
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+const setReferralDot = (index) => {
+  referralDots.forEach((dot, dotIndex) => {
+    const active = dotIndex === index;
+    dot.classList.toggle('active', active);
+    dot.toggleAttribute('aria-current', active);
+  });
+};
+
+const updateReferralDot = () => {
+  if (!referralMarquee || !referralDots.length) return;
+  const firstCard = referralMarquee.querySelector('.referral-grid article');
+  const grid = referralMarquee.querySelector('.referral-grid');
+  if (!firstCard || !grid) return;
+  const gap = parseFloat(window.getComputedStyle(grid).columnGap) || 0;
+  const step = firstCard.getBoundingClientRect().width + gap;
+  const activeIndex = step ? Math.round(referralMarquee.scrollLeft / step) % referralDots.length : 0;
+  setReferralDot((activeIndex + referralDots.length) % referralDots.length);
+};
+
+if (referralDots.length && mobileCarousel.matches) {
+  referralMarquee?.addEventListener('scroll', updateReferralDot, { passive: true });
+  updateReferralDot();
+} else if (referralDots.length && !reducedMotion.matches) {
   let activeReferralDot = 0;
   window.setInterval(() => {
-    referralDots[activeReferralDot].classList.remove('active');
-    referralDots[activeReferralDot].removeAttribute('aria-current');
     activeReferralDot = (activeReferralDot + 1) % referralDots.length;
-    referralDots[activeReferralDot].classList.add('active');
-    referralDots[activeReferralDot].setAttribute('aria-current', 'true');
+    setReferralDot(activeReferralDot);
   }, 3000);
 }
 
 const challengeCards = [...document.querySelectorAll('[data-challenge-carousel] article')];
 const challengeTrack = document.querySelector('[data-challenge-carousel] .challenge-track');
-if (challengeCards.length && challengeTrack && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  const challengeMobile = window.matchMedia('(max-width: 767px)');
+const challengeMobile = window.matchMedia('(max-width: 767px)');
+if (challengeCards.length && challengeTrack && challengeMobile.matches) {
+  const challengeWindow = challengeTrack.parentElement;
+  const challengeDots = [...document.querySelectorAll('.challenge-dots span')];
+
+  const updateChallengeSelection = () => {
+    if (!challengeWindow) return;
+    const windowCenter = challengeWindow.scrollLeft + (challengeWindow.clientWidth / 2);
+    let activeIndex = 0;
+    let closestDistance = Number.POSITIVE_INFINITY;
+    const windowRect = challengeWindow.getBoundingClientRect();
+
+    challengeCards.forEach((card, index) => {
+      const cardRect = card.getBoundingClientRect();
+      const cardCenter = cardRect.left - windowRect.left + challengeWindow.scrollLeft + (cardRect.width / 2);
+      const distance = Math.abs(cardCenter - windowCenter);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        activeIndex = index;
+      }
+    });
+
+    challengeCards.forEach((card, index) => card.classList.toggle('selected', index === activeIndex));
+    challengeDots.forEach((dot, index) => {
+      const active = index === activeIndex;
+      dot.classList.toggle('active', active);
+      dot.toggleAttribute('aria-current', active);
+    });
+  };
+
+  challengeWindow?.addEventListener('scroll', updateChallengeSelection, { passive: true });
+  updateChallengeSelection();
+}
+
+if (challengeCards.length && challengeTrack && !challengeMobile.matches && !reducedMotion.matches) {
   const challengeLoopCards = [...challengeCards];
-  if (challengeMobile.matches) {
-    const leadingClone = challengeCards[challengeCards.length - 1].cloneNode(true);
-    leadingClone.classList.remove('selected');
-    leadingClone.setAttribute('aria-hidden', 'true');
-    challengeTrack.prepend(leadingClone);
-  }
   challengeCards.forEach((card) => {
     const loopClone = card.cloneNode(true);
     loopClone.classList.remove('selected');
@@ -328,35 +378,14 @@ if (challengeCards.length && challengeTrack && !window.matchMedia('(prefers-redu
   const challengeMoveDuration = 420;
   const challengeCycleDuration = 5200;
   const challengeDesktopDistance = 112;
-  const challengeActiveOffset = challengeMobile.matches ? 0 : 1;
+  const challengeActiveOffset = 1;
 
   challengeLoopCards.forEach((card) => card.classList.remove('selected'));
   challengeCards[challengeActiveOffset].classList.add('selected');
 
   const setChallengeTransform = () => {
-    if (!challengeMobile.matches) {
-      challengeTrack.style.transform = `translateY(-${challengePosition * challengeDesktopDistance}px)`;
-      return;
-    }
-
-    const trackWindow = challengeTrack.parentElement;
-    const cardWidth = challengeCards[0].getBoundingClientRect().width;
-    const trackStyles = window.getComputedStyle(challengeTrack);
-    const gap = parseFloat(trackStyles.columnGap || trackStyles.gap) || 0;
-    const inset = parseFloat(window.getComputedStyle(trackWindow).paddingLeft) || 0;
-    const step = cardWidth + gap;
-    const centeredCardStart = (trackWindow.getBoundingClientRect().width - cardWidth) / 2;
-    const firstCardStart = inset + step;
-    const baseOffset = centeredCardStart - firstCardStart;
-    challengeTrack.style.transform = `translateX(${baseOffset - (challengePosition * step)}px)`;
+    challengeTrack.style.transform = `translateY(-${challengePosition * challengeDesktopDistance}px)`;
   };
-
-  if (challengeMobile.matches) {
-    challengeTrack.style.transition = 'none';
-    setChallengeTransform();
-    challengeTrack.offsetHeight;
-    challengeTrack.style.transition = '';
-  }
 
   window.setInterval(() => {
     challengePosition += 1;
@@ -380,11 +409,7 @@ if (challengeCards.length && challengeTrack && !window.matchMedia('(prefers-redu
           challengePosition = 0;
           challengeLoopCards.forEach((card) => card.classList.remove('selected'));
           challengeCards[challengeActiveOffset].classList.add('selected');
-          if (challengeMobile.matches) {
-            setChallengeTransform();
-          } else {
-            challengeTrack.style.transform = 'translateY(0)';
-          }
+          challengeTrack.style.transform = 'translateY(0)';
           challengeTrack.offsetHeight;
           challengeTrack.style.transition = '';
           challengeTrack.classList.remove('is-moving', 'is-resetting');

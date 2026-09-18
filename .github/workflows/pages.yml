@@ -45,8 +45,10 @@ jobs:
           cp -r src/assets public/assets 2>/dev/null || true
           cp -r src/assets public/src/assets 2>/dev/null || true
           cp -r src/js public/js
+          cp dist/js/main.js public/js/main.js
           cp dist/css/main.css public/dist/css/main.css
           sed -i 's#../dist/css/main.css#dist/css/main.css#g' public/index.html
+          sed -i 's#<script type="module" src="js/main.js"></script>#<script src="js/main.js"></script>#g' public/index.html
 
       - name: Upload site
         uses: actions/upload-pages-artifact@v3

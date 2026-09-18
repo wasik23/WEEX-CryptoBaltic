@@ -19,7 +19,7 @@ yarn build:css
 
 The LESS entry point is `src/less/index.less`, which imports shared tokens from `variables.less`, the page rules from `main.less`, and responsive overrides from `responsive.less`.
 
-Use `yarn check` for a fast JavaScript syntax check. Use `yarn verify` before deployment to validate JavaScript and compile the production CSS.
+Use `yarn check` for a fast JavaScript syntax check. Use `yarn verify` before deployment to validate JavaScript, compile the production CSS, and generate the deployment JavaScript bundle.
 
 The HTML entry point is `src/index.html`. It contains the document metadata, CSP, semantic sections, language hooks (`data-i18n`), and analytics hooks (`data-cta`, `data-community`, and `data-track`). GitHub Pages copies this source entry point to `public/index.html` and adjusts the compiled stylesheet path during deployment.
 
@@ -40,7 +40,7 @@ src/
 └── index.html
 ```
 
-JavaScript uses native ES modules. `main.js` is the entrypoint and imports the configuration, analytics, and language modules. No bundler step is required; the Pages workflow copies `src/js` and `src/assets` into the published site.
+JavaScript source uses native ES modules. `main.js` is the source entrypoint and imports the configuration, analytics, and language modules. The Pages workflow publishes the generated `dist/js/main.js` bundle so the extracted build also works when opened directly from a local file.
 
 Responsive breakpoints are defined in `src/less/responsive.less`:
 

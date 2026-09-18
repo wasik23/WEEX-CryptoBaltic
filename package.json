@@ -11,7 +11,8 @@
     "dev": "yarn build:css && concurrently \"node scripts/watch-css.js\" \"http-server . -a 127.0.0.1 -p 3001 -c-1\"",
     "check": "yarn check:js",
     "check:js": "node --check src/js/config.js && node --check src/js/analytics.js && node --check src/js/i18n.js && node --check src/js/main.js",
-    "verify": "yarn check:js && yarn build:css"
+    "build:js": "node scripts/build-js.js",
+    "verify": "yarn check:js && yarn build:css && yarn build:js"
   },
   "devDependencies": {
     "concurrently": "^9.2.4",
